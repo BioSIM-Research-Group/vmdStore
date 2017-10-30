@@ -11,3 +11,4 @@ package ifneeded vmdStoreTopGui         	                    0.1 [list source [f
 
 # Lib
 package ifneeded vmdStoreReadExternalPackage                    0.1 [list source [file join $dir/lib/readExternalPackage.tcl]]
+package ifneeded vmdStoreBrowser                                1.0 [list source [file join $dir/lib/browser.tcl]]

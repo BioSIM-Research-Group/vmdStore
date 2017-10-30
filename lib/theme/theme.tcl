@@ -67,11 +67,11 @@ ttk::style theme create vmdStoreTheme -parent clam -settings {
     #### Button
     ttk::style element create vmdStore.blueBg.TButton.button \
         image [list $vmdStore::images(button-n) \
-                 pressed $vmdStore::images(button-n) \
-                 {selected active} $vmdStore::images(button-n) \
-                 selected $vmdStore::images(button-n) \
+                 pressed $vmdStore::images(button-a) \
+                 {selected active} $vmdStore::images(button-a) \
+                 selected $vmdStore::images(button-a) \
                  active $vmdStore::images(button-a) \
-                 disabled $vmdStore::images(button-n) \
+                 disabled $vmdStore::images(button-d) \
                 ] \
                 -border 4 -sticky ew -padding [list 10 0 10 0]
 
@@ -88,11 +88,11 @@ ttk::style theme create vmdStoreTheme -parent clam -settings {
     #
      ttk::style element create vmdStore.greenBg.TButton.button \
         image [list $vmdStore::images(button-n-green) \
-                 pressed $vmdStore::images(button-n-green) \
-                 {selected active} $vmdStore::images(button-n-green) \
-                 selected $vmdStore::images(button-n-green) \
+                 pressed $vmdStore::images(button-a) \
+                 {selected active} $vmdStore::images(button-a) \
+                 selected $vmdStore::images(button-a) \
                  active $vmdStore::images(button-a) \
-                 disabled $vmdStore::images(button-n-green) \
+                 disabled $vmdStore::images(button-d-green) \
                 ] \
                 -border 4 -sticky ew -padding [list 10 0 10 0]
 

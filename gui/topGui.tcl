@@ -134,6 +134,7 @@ proc vmdStore::topGui {} {
 		-highlightthickness 0 \
 		-wrap word \
         -font {Helvetica} \
+        -state normal \
 		] -in $f1.right.f1 -row 0 -column 0 -sticky news
 
     grid [ttk::scrollbar $f1.right.f1.yscb0 \
@@ -173,9 +174,40 @@ proc vmdStore::topGui {} {
         -style vmdStore.gray.TFrame  \
         ] -in $f1.right -row 3 -column 0 -sticky news -pady [list 2 0] -padx [list 0 5]
     
+     grid [text $f1.right.f3.citationText \
+		-highlightcolor #0099ff \
+		-highlightthickness 0 \
+        -bg #f2f2f2 \
+		-wrap word \
+        -font {Helvetica} \
+        -state normal \
+        -height 1 \
+        -yscrollcommand "$f1.right.f3.yscb0 set" \
+		] -in $f1.right.f3 -row 0 -column 0 -sticky ew -padx [list 5 0]
+    
+    grid [ttk::scrollbar $f1.right.f3.yscb0 \
+		-orient vertical \
+		-command [list $f1.right.f3.citationText yview]\
+		] -in $f1.right.f3 -row 0 -column 1 -sticky ns
+    
+    grid [ttk::button $f1.right.f3.citation \
+        -text "Citation" \
+        -command {vmdStore::browser $vmdStore::citationLink} \
+        -state disabled \
+        -style vmdStore.blueBg.TButton \
+        ] -in $f1.right.f3 -row 0 -column 2 -sticky e -pady 5 -padx 10
+    
+    grid [ttk::button $f1.right.f3.webPage \
+        -text "Web Page" \
+        -command {vmdStore::browser $vmdStore::webPageLink} \
+        -state disabled \
+        -style vmdStore.blueBg.TButton \
+        ] -in $f1.right.f3 -row 0 -column 4 -sticky e -pady 5 -padx 10
+    
     grid [ttk::button $f1.right.f3.install \
         -text "INSTALL" \
         -command {} \
+        -state disabled \
         -style vmdStore.greenBg.TButton \
         ] -in $f1.right.f3 -row 0 -column 5 -sticky e -pady 5 -padx 10
 

@@ -30,10 +30,17 @@ proc vmdStore::fillData {category plugin dir} {
     set file [open $path r]
     set description [read $file]
     close $file
+    
+    ## Title
+    $vmdStore::topGui.frame1.right.f0.pluginTitle configure -text $plugin
 
+    ## Description
+    $vmdStore::topGui.frame1.right.f1.description configure -state normal
     $vmdStore::topGui.frame1.right.f1.description delete 1.0 end
     $vmdStore::topGui.frame1.right.f1.description insert end $description
-    
+    vmdStore::markDown $vmdStore::topGui.frame1.right.f1.description
+    $vmdStore::topGui.frame1.right.f1.description configure -state disabled
+
     ## Get Images
     variable pluginImages
 
@@ -71,6 +78,37 @@ proc vmdStore::fillData {category plugin dir} {
 
     $vmdStore::topGui.frame1.right.f2.canvas configure -scrollregion [list 0 0 [expr $xPos + 10] 100]
 
+
+    ## Footer Buttons
+    set path "$dir/$category/$plugin/link.txt"
+    set file [open $path r]
+    set link [split [read $file] "\n"]
+    close $file
+
+    set vmdStore::installLink   [lindex $link 0]
+    set vmdStore::webPageLink	[lindex $link 1]
+    set vmdStore::citationLink  [lindex $link 2]
+    set vmdStore::citationText  [lindex $link 3]
+
+    $vmdStore::topGui.frame1.right.f3.citationText configure -state normal
+    $vmdStore::topGui.frame1.right.f3.citationText delete 1.0 end
+    $vmdStore::topGui.frame1.right.f3.citationText insert end $vmdStore::citationText
+    $vmdStore::topGui.frame1.right.f3.citationText configure -state disabled
+
+    if {$vmdStore::citationLink != ""} {
+        $vmdStore::topGui.frame1.right.f3.citation  configure -state normal
+    } else {
+        $vmdStore::topGui.frame1.right.f3.citation  configure -state disabled
+    }
+    if {$vmdStore::webPageLink != ""} {
+        $vmdStore::topGui.frame1.right.f3.webPage   configure -state normal
+    } else {
+        $vmdStore::topGui.frame1.right.f3.webPage   configure -state disabled
+    }
+   
+    $vmdStore::topGui.frame1.right.f3.install  configure -state normal
+
+
 }
 
 proc vmdStore::zoomImage {image} {
@@ -85,4 +123,25 @@ proc vmdStore::zoomImage {image} {
         -image $image \
         ] -in $::vmdStore::topGui.imagePopUp -row 0 -column 0 -sticky news
 
+}
+
+proc vmdStore::markDown {pathName} {
+    foreach tagList $vmdStore::markdown {
+        set tag [lindex $tagList 0]
+        set tagLength [string length $tag]
+
+        set tagPos [$pathName search -all -strictlimits "$tag" 0.0 end]
+        if {[llength $tagPos] != 0} {
+            set numberTags [expr [llength $tagPos] / 2]
+            for {set index 0} { $index < $numberTags } { incr index } {
+                set tagPos [$pathName search -all -strictlimits "$tag" 0.0 end]
+                $pathName tag add $tag [lindex $tagPos 0] [lindex $tagPos 1]
+                $pathName tag configure $tag -font [lindex $tagList 1]
+                set end1 [split [lindex $tagPos 0] "."]
+                set end2 [split [lindex $tagPos 1] "."]
+                $pathName delete "[lindex $tagPos 0]" "[lindex $end1 0].[expr [lindex $end1 1] + $tagLength]"  "[lindex $tagPos 1]" "[lindex $end2 0].[expr [lindex $end2 1] + $tagLength]"
+            }
+        }
+        
+    }
 }
