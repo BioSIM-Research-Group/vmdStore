@@ -17,6 +17,7 @@ namespace eval vmdStore:: {
         ## Lib
         package require vmdStoreReadExternalPackage         0.1
 		package require vmdStoreBrowser						1.0
+		package require vmdStoreSearch  					0.1
 		package require tar									0.7.1
 
 
@@ -78,6 +79,4 @@ proc vmdStore::start {} {
 	update
 	return $::vmdStore::topGui
 
-
-    
 }

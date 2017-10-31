@@ -58,10 +58,12 @@ proc vmdStore::topGui {} {
     bind $f0.h1.searchBarEntry <Button-1> {if {$vmdStore::searchBar == "Search..."} {set vmdStore::searchBar ""}}
 
     grid [ttk::button $f0.h1.searchButton \
-        -command {} \
+        -command {vmdStore::search $vmdStore::searchBar $vmdStore::topGui.frame1.left.f0.tree} \
         -text "Search" \
         -style vmdStore.blueBg.TButton \
         ] -in $f0.h1 -row 0 -column 1 -sticky e -pady 25 -padx [list 1 10]
+
+    bind $f0.h1.searchBarEntry <Return> {vmdStore::search $vmdStore::searchBar $vmdStore::topGui.frame1.left.f0.tree}
 
     #grid [ttk::button $f0.h1.settings \
         -command {} \
@@ -97,6 +99,8 @@ proc vmdStore::topGui {} {
         -command "$f1.left.f0.tree yview" \
         ] -in $f1.left.f0 -row 0 -column 0  -sticky ns 
 
+    #### TreeView
+    $vmdStore::topGui.frame1.left.f0.tree tag configure selected -background #0099ff -foreground white
 
     bind $f1.left.f0.tree <<TreeviewSelect>> {
         set selection [$vmdStore::topGui.frame1.left.f0.tree selection]
@@ -257,14 +261,3 @@ proc vmdStore::topGui {} {
     
 
 }
-
-
-
-
-
-
-
-
-
-########## Download something from the internet using VMD
-# vmdhttpcopy URL destination

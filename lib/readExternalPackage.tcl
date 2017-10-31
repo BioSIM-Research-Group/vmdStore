@@ -39,6 +39,7 @@ proc vmdStore::fillData {category plugin dir} {
     $vmdStore::topGui.frame1.right.f1.description delete 1.0 end
     $vmdStore::topGui.frame1.right.f1.description insert end $description
     vmdStore::markDown $vmdStore::topGui.frame1.right.f1.description
+    vmdStore::colorSearchPattern $vmdStore::topGui.frame1.right.f1.description $vmdStore::searchBar
     $vmdStore::topGui.frame1.right.f1.description configure -state disabled
 
     ## Get Images

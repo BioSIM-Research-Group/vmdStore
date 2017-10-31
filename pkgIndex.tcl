@@ -17,4 +17,5 @@ package ifneeded vmdStoreLoadingGui        	                    0.1 [list source
 # Lib
 package ifneeded vmdStoreReadExternalPackage                    0.1 [list source [file join $dir/lib/readExternalPackage.tcl]]
 package ifneeded vmdStoreBrowser                                1.0 [list source [file join $dir/lib/browser.tcl]]
+package ifneeded vmdStoreSearch                                 0.1 [list source [file join $dir/lib/search.tcl]]
 package ifneeded tar                                            0.7.1 [list source [file join $dir/lib/tar.tcl]]
