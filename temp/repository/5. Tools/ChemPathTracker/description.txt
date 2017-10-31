@@ -1,0 +1,6 @@
+<h1>Introduction<h1>
+<b>Chem-Path-Tracker<b> is a bioinformatic tool that allows to locate functionally relevant chemical motifs in protein structures.
+
+The chemical motifs can be a small group of residues or structure protein fragments with highly conserved properties that have important biological functions. However, the detection of chemical motifs is rather difficult because they often consist of a set of amino acid residues separated by long, variable regions, and they only come together to form a functional group when the protein is folded into its three dimensional structure. Furthermore, the assemblage of these residues is often dependent on non-covalent interactions among the constituent amino acids that are difficult to detect or visualize. To simplify the analysis of these chemical motifs and give access to a generalized use for all users, we developed <b>Chem-Path-Tracker<b>.
+
+<b>Chem-Path-Tracker<b> is a VMD plug-in that allows the user to highlight and reveal potential chemical motifs requiring only a few selections. The analysis is based on atoms/residues pair distances applying a modified version of Dijkstra’s algorithm, and it makes possible to monitor the distances of a large pathway, even during a molecular dynamics simulation.

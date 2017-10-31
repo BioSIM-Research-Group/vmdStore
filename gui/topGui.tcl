@@ -38,11 +38,11 @@ proc vmdStore::topGui {} {
     #### Header
     ## Left
     grid [ttk::label $f0.logo \
-        -text "VMD Store" \
+        -image [image create photo -file "$::vmdStorePath/lib/theme/images/vmdStore-Logo.gif"] \
         -style vmdStore.whiteFg.blueBg.TLabel \
         -font {Helvetica -25} \
         -anchor center \
-        ] -in $f0 -row 0 -column 0 -sticky news -ipadx 20 -ipady 20
+        ] -in $f0 -row 0 -column 0 -sticky news -ipadx 25
 
     ## Right
     grid [ttk::frame $f0.h1 \
@@ -63,7 +63,7 @@ proc vmdStore::topGui {} {
         -style vmdStore.blueBg.TButton \
         ] -in $f0.h1 -row 0 -column 1 -sticky e -pady 25 -padx [list 1 10]
 
-    grid [ttk::button $f0.h1.settings \
+    #grid [ttk::button $f0.h1.settings \
         -command {} \
         -text "Settings" \
         -style vmdStore.blueBg.TButton \
@@ -122,6 +122,14 @@ proc vmdStore::topGui {} {
         -font {Helvetica -20} \
         -style vmdStore.whiteFg.blueBg.TLabel \
         ] -in $f1.right.f0 -row 0 -column 0 -sticky news -padx 5
+    
+    grid [ttk::label $f1.right.f0.version \
+        -text "Version: 0.0" \
+        -font {Helvetica -14} \
+        -style vmdStore.whiteFg.blueBg.TLabel \
+        ] -in $f1.right.f0 -row 0 -column 1 -sticky news -padx 5
+
+    grid columnconfigure $f1.right.f0      0 -weight 1
 
     # Description
     grid [ttk::frame $f1.right.f1 \
@@ -136,6 +144,9 @@ proc vmdStore::topGui {} {
         -font {Helvetica} \
         -state normal \
 		] -in $f1.right.f1 -row 0 -column 0 -sticky news
+
+    $vmdStore::topGui.frame1.right.f1.description insert end "vmdStore is the easiest way to manage and install third-part VMD extensions. vmdStore compile several VMD extensions and allows you to install them and push VMD to the next level."
+    $vmdStore::topGui.frame1.right.f1.description configure -state disabled
 
     grid [ttk::scrollbar $f1.right.f1.yscb0 \
 		-orient vertical \
@@ -180,7 +191,7 @@ proc vmdStore::topGui {} {
         -bg #f2f2f2 \
 		-wrap word \
         -font {Helvetica} \
-        -state normal \
+        -state disabled \
         -height 1 \
         -yscrollcommand "$f1.right.f3.yscb0 set" \
 		] -in $f1.right.f3 -row 0 -column 0 -sticky ew -padx [list 5 0]

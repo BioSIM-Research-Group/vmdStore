@@ -53,6 +53,10 @@ proc vmdStore::fillData {category plugin dir} {
 
     set i 0
     set xPos 0
+    
+    ## Clean Image Gallery
+    $vmdStore::topGui.frame1.right.f2.canvas delete all
+
     foreach {index image} [array get vmdStore::pluginImages] {
         set imageHeight [image height $image]
         set scale [format %.0f [expr ($imageHeight / 190) + 1]]

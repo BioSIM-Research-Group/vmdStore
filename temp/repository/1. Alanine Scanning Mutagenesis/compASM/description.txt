@@ -1,0 +1,8 @@
+<h1>Introduction<h1>
+Protein-protein interactions play a crucial role in molecular recognition and cellular function. Mapping them, provides important insight on how these structures interact and on how to improve or inhibit their binding.
+
+<b>CompASM<b> presents here as a very intuitive plug-in for two widely distributed softwares ( AMBER-Visual Molecular Dynamics (VMD)) that allows the user to perform a full Alanine Scanning Mutagenesis (ASM) procedure, requiring only very little user effort. This software is composed by two main packages: the Core and Graphical User Interface (GUI).
+
+The <b>CompASM<b> Core section (Amber dependent, VMD independent) contains the main procedures of the ASM algorithm, e.g. Molecular Dynamics Simulation and MMPBSA calculation. It can be launched in a shell command and/or with the “Run” button of the GUI.
+
+The <b>CompASM<b> GUI section (Amber independent, VMD dependent) turns possible the communication between Amber and VMD. Here, the user can generate the input file and submit it to the <b>CompASM<b> Core automatically, as well as being able to visualize the interfaces and the final results.

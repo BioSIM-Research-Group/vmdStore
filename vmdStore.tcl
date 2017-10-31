@@ -9,6 +9,7 @@ namespace eval vmdStore:: {
 
         ## GUI
         package require vmdStoreTopGui                      0.1
+		package require vmdStoreLoadingGui 					0.1
 
         ## Theme
         package require vmdStoreTheme                       0.1
@@ -16,6 +17,7 @@ namespace eval vmdStore:: {
         ## Lib
         package require vmdStoreReadExternalPackage         0.1
 		package require vmdStoreBrowser						1.0
+		package require tar									0.7.1
 
 
 		
@@ -25,9 +27,11 @@ namespace eval vmdStore:: {
 
 		#GUI
         variable topGui             ".vmdStore"
+		variable loadingGui			".vmdStoreLoading"
         
         #Read External Package
-        variable externalPackage    "/Users/Henrique/Desktop/repository"
+        variable server				"http://henriquefernandes.pt/vmdStore"
+		variable externalPackage    "$::vmdStorePath/temp/repository"
 		variable installLink		""
 		variable webPageLink		""
 		variable citationLink		""
@@ -47,11 +51,28 @@ namespace eval vmdStore:: {
 }
 
 proc vmdStore::start {} {
-	if {[winfo exists $::vmdStore::topGui]} {wm deiconify $::vmdStore::topGui ;return $::vmdStore::topGui}
+	## Open loading GUI
+	vmdStore::loadingGui
 
+	## Check for updates on repository content
+	set openVersionFile [open $::vmdStorePath/temp/version.txt r]
+	set localVersion [read $openVersionFile]
+	close $openVersionFile
+	vmdhttpcopy "$vmdStore::server/version.txt" "$::vmdStorePath/temp/version.txt"
+	set openVersionFile [open $::vmdStorePath/temp/version.txt r]
+	set onlineVersion [read $openVersionFile]
+	close $openVersionFile
+	if {$localVersion != $onlineVersion} {
+		## Update repository
+		vmdhttpcopy "$vmdStore::server/repository.tar" "$::vmdStorePath/temp/repository.tar"
+		::tar::untar "$::vmdStorePath/temp/repository.tar" -dir "$::vmdStorePath/temp"
+	} else {
+		## Ignore
+	}
 
+	destroy $::vmdStore::loadingGui
 	
-
+	if {[winfo exists $::vmdStore::topGui]} {wm deiconify $::vmdStore::topGui ;return $::vmdStore::topGui}
 	### Open the GUI
 	vmdStore::topGui
 	update
