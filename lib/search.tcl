@@ -1,8 +1,12 @@
 package provide vmdStoreSearch  0.1
 
 proc vmdStore::search {textSearch treeView} {
+    if {$textSearch == ""} {
+        set textSearch "Search..."
+        set vmdStore::searchBar "Search..."
+    }
 
-    if {$textSearch != "" && $textSearch != "Search..." } {
+    if {$textSearch != "Search..." } {
         set parents [$treeView children ""]
         foreach parent $parents {
             set category [$treeView item $parent -text]
@@ -29,6 +33,7 @@ proc vmdStore::search {textSearch treeView} {
 
         vmdStore::colorSearchPattern $vmdStore::topGui.frame1.right.f1.description $textSearch
     } else {
+        $vmdStore::topGui.frame1.right.f1.description tag delete search
         set parents [$treeView children ""]
         foreach parent $parents {
             set category [$treeView item $parent -text]

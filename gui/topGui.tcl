@@ -63,7 +63,7 @@ proc vmdStore::topGui {} {
         -style vmdStore.blueBg.TButton \
         ] -in $f0.h1 -row 0 -column 1 -sticky e -pady 25 -padx [list 1 10]
 
-    bind $f0.h1.searchBarEntry <Return> {vmdStore::search $vmdStore::searchBar $vmdStore::topGui.frame1.left.f0.tree}
+    bind $f0.h1.searchBarEntry <Return> {puts $vmdStore::searchBar; vmdStore::search "$vmdStore::searchBar" $vmdStore::topGui.frame1.left.f0.tree}
 
     #grid [ttk::button $f0.h1.settings \
         -command {} \
@@ -128,7 +128,7 @@ proc vmdStore::topGui {} {
         ] -in $f1.right.f0 -row 0 -column 0 -sticky news -padx 5
     
     grid [ttk::label $f1.right.f0.version \
-        -text "Version: 0.0" \
+        -text $vmdStore::pluginVersion \
         -font {Helvetica -14} \
         -style vmdStore.whiteFg.blueBg.TLabel \
         ] -in $f1.right.f0 -row 0 -column 1 -sticky news -padx 5
@@ -183,27 +183,41 @@ proc vmdStore::topGui {} {
     
     grid columnconfigure $f1.right.f2     0 -weight 1
 
-
-    # Footer buttons
-    grid [ttk::frame $f1.right.f3 \
+    # Citation 
+    grid [ttk::frame $f1.right.f4 \
         -style vmdStore.gray.TFrame  \
         ] -in $f1.right -row 3 -column 0 -sticky news -pady [list 2 0] -padx [list 0 5]
-    
-     grid [text $f1.right.f3.citationText \
+
+     grid [text $f1.right.f4.citationText \
 		-highlightcolor #0099ff \
 		-highlightthickness 0 \
         -bg #f2f2f2 \
 		-wrap word \
-        -font {Helvetica} \
+        -font {Helvetica 11} \
         -state disabled \
-        -height 1 \
-        -yscrollcommand "$f1.right.f3.yscb0 set" \
-		] -in $f1.right.f3 -row 0 -column 0 -sticky ew -padx [list 5 0]
+        -height 2 \
+        -yscrollcommand "$f1.right.f4.yscb0 set" \
+		] -in $f1.right.f4 -row 0 -column 0 -sticky news -padx [list 5 0]
     
-    grid [ttk::scrollbar $f1.right.f3.yscb0 \
+    grid columnconfigure $f1.right.f4   0   -weight 1
+
+    grid [ttk::scrollbar $f1.right.f4.yscb0 \
 		-orient vertical \
-		-command [list $f1.right.f3.citationText yview]\
-		] -in $f1.right.f3 -row 0 -column 1 -sticky ns
+		-command [list $f1.right.f4.citationText yview]\
+		] -in $f1.right.f4 -row 0 -column 1 -sticky ns
+
+    # Footer buttons
+    grid [ttk::frame $f1.right.f3 \
+        -style vmdStore.gray.TFrame  \
+        ] -in $f1.right -row 4 -column 0 -sticky news -pady [list 2 0] -padx [list 0 5]
+    
+    grid [ttk::button $f1.right.f3.uninstall \
+        -text "Uninstall" \
+        -command {vmdStore::uninstallPlugin $vmdStore::installLink} \
+        -state disabled \
+        -style vmdStore.uninstall.TButton \
+        ] -in $f1.right.f3 -row 0 -column 0 -sticky w -pady 5 -padx 10
+    
     
     grid [ttk::button $f1.right.f3.citation \
         -text "Citation" \
@@ -220,8 +234,8 @@ proc vmdStore::topGui {} {
         ] -in $f1.right.f3 -row 0 -column 4 -sticky e -pady 5 -padx 10
     
     grid [ttk::button $f1.right.f3.install \
-        -text "INSTALL" \
-        -command {} \
+        -text "Install" \
+        -command {vmdStore::installPlugin $vmdStore::installLink} \
         -state disabled \
         -style vmdStore.greenBg.TButton \
         ] -in $f1.right.f3 -row 0 -column 5 -sticky e -pady 5 -padx 10

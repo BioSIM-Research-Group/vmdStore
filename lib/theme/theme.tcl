@@ -90,13 +90,13 @@ ttk::style theme create vmdStoreTheme -parent clam -settings {
     #
      ttk::style element create vmdStore.greenBg.TButton.button \
         image [list $vmdStore::images(button-n-green) \
-                 pressed $vmdStore::images(button-a) \
-                 {selected active} $vmdStore::images(button-a) \
-                 selected $vmdStore::images(button-a) \
-                 active $vmdStore::images(button-a) \
+                 pressed $vmdStore::images(button-a-green) \
+                 {selected active} $vmdStore::images(button-a-green) \
+                 selected $vmdStore::images(button-a-green) \
+                 active $vmdStore::images(button-a-green) \
                  disabled $vmdStore::images(button-d-green) \
                 ] \
-                -border 4 -sticky ew -padding [list 10 0 10 0]
+                -border [list 24 4 4 4] -sticky ew -padding [list 26 0 10 0]
 
     ttk::style configure vmdStore.greenBg.TButton \
         -anchor center \
@@ -105,6 +105,48 @@ ttk::style theme create vmdStoreTheme -parent clam -settings {
     ttk::style layout vmdStore.greenBg.TButton {
         Button.vmdStore.greenBg.TButton.button -children {
             Button.vmdStore.greenBg.TButton.label
+        }
+    }
+
+    #
+     ttk::style element create vmdStore.uninstall.TButton.button \
+        image [list $vmdStore::images(button-uninstall-n) \
+                 pressed $vmdStore::images(button-uninstall-a) \
+                 {selected active} $vmdStore::images(button-uninstall-a) \
+                 selected $vmdStore::images(button-uninstall-a) \
+                 active $vmdStore::images(button-uninstall-a) \
+                 disabled $vmdStore::images(button-uninstall-d) \
+                ] \
+                -border [list 24 4 4 4] -sticky ew -padding [list 24 0 10 0]
+
+    ttk::style configure vmdStore.uninstall.TButton \
+        -anchor center \
+        -foreground white
+
+    ttk::style layout vmdStore.uninstall.TButton {
+        Button.vmdStore.uninstall.TButton.button -children {
+            Button.vmdStore.uninstall.TButton.label
+        }
+    }
+
+    #
+     ttk::style element create vmdStore.update.TButton.button \
+        image [list $vmdStore::images(button-update-n) \
+                 pressed $vmdStore::images(button-update-a) \
+                 {selected active} $vmdStore::images(button-update-a) \
+                 selected $vmdStore::images(button-update-a) \
+                 active $vmdStore::images(button-update-a) \
+                 disabled $vmdStore::images(button-update-d) \
+                ] \
+                -border [list 24 4 4 4] -sticky ew -padding [list 26 0 10 0]
+
+    ttk::style configure vmdStore.update.TButton \
+        -anchor center \
+        -foreground white
+
+    ttk::style layout vmdStore.update.TButton {
+        Button.vmdStore.update.TButton.button -children {
+            Button.vmdStore.update.TButton.label
         }
     }
 

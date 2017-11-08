@@ -1,0 +1,6 @@
+####vmdStore#### START compASM
+## Version 1.0
+variable ASMPath "$::vmdStorePath/plugins/compASM"
+lappend auto_path "$::vmdStorePath/plugins/compASM"
+vmd_install_extension ASM_GUI "ASM_GUI::main" "PortoBioComp/compASM" 
+####vmdStore#### END compASM

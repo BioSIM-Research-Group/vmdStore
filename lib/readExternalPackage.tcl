@@ -71,7 +71,7 @@ proc vmdStore::fillData {category plugin dir} {
         set xPos [expr $xPos + 10 + ($imageWidth / $scale / 2)]
 
         $vmdStore::topGui.frame1.right.f2.canvas create image $xPos 100 -image $newImage -tags [list image$i]
-        $vmdStore::topGui.frame1.right.f2.canvas bind image$i <Button-1> "vmdStore::zoomImage $image"
+        $vmdStore::topGui.frame1.right.f2.canvas bind image$i <Button-1> "vmdStore::zoomImage $image $i"
         
         set xPos [expr $xPos + ($imageWidth / $scale / 2)]
         
@@ -94,11 +94,14 @@ proc vmdStore::fillData {category plugin dir} {
     set vmdStore::webPageLink	[lindex $link 1]
     set vmdStore::citationLink  [lindex $link 2]
     set vmdStore::citationText  [lindex $link 3]
+    set vmdStore::pluginVersion [lindex $link 4]
 
-    $vmdStore::topGui.frame1.right.f3.citationText configure -state normal
-    $vmdStore::topGui.frame1.right.f3.citationText delete 1.0 end
-    $vmdStore::topGui.frame1.right.f3.citationText insert end $vmdStore::citationText
-    $vmdStore::topGui.frame1.right.f3.citationText configure -state disabled
+    $vmdStore::topGui.frame1.right.f4.citationText configure -state normal
+    $vmdStore::topGui.frame1.right.f4.citationText delete 1.0 end
+    $vmdStore::topGui.frame1.right.f4.citationText insert end $vmdStore::citationText
+    $vmdStore::topGui.frame1.right.f4.citationText configure -state disabled
+
+    $vmdStore::topGui.frame1.right.f0.version configure -text "Version: $vmdStore::pluginVersion"
 
     if {$vmdStore::citationLink != ""} {
         $vmdStore::topGui.frame1.right.f3.citation  configure -state normal
@@ -111,12 +114,27 @@ proc vmdStore::fillData {category plugin dir} {
         $vmdStore::topGui.frame1.right.f3.webPage   configure -state disabled
     }
    
-    $vmdStore::topGui.frame1.right.f3.install  configure -state normal
+    $vmdStore::topGui.frame1.right.f3.install  configure -state normal -style vmdStore.greenBg.TButton
+
+    ### Check if the plugin is already installed
+    set alreadyInstalled [lsearch -index 0 $::vmdStore::installedPlugins $vmdStore::installLink]
+    if {$alreadyInstalled == -1} {
+        $vmdStore::topGui.frame1.right.f3.install  configure -text "Install" -style vmdStore.greenBg.TButton
+        $vmdStore::topGui.frame1.right.f3.uninstall  configure -state disabled
+    } else {
+        if {$vmdStore::pluginVersion == [lindex [lindex $::vmdStore::installedPlugins $alreadyInstalled] 1]} {
+            $vmdStore::topGui.frame1.right.f3.install  configure -text "Re-Install"
+            $vmdStore::topGui.frame1.right.f3.uninstall  configure -state normal
+        } else {
+            $vmdStore::topGui.frame1.right.f3.install  configure -text "Update" -style vmdStore.update.TButton
+            $vmdStore::topGui.frame1.right.f3.uninstall  configure -state normal
+        }
+    }
 
 
 }
 
-proc vmdStore::zoomImage {image} {
+proc vmdStore::zoomImage {image imageIndex} {
     #### Check if the window exists
 	if {[winfo exists $::vmdStore::topGui.imagePopUp]} {wm deiconify $::vmdStore::topGui.imagePopUp ;return $::vmdStore::topGui.imagePopUp}
 	toplevel $::vmdStore::topGui.imagePopUp
@@ -124,9 +142,68 @@ proc vmdStore::zoomImage {image} {
 	#### Title of the windows
 	wm title $::vmdStore::topGui.imagePopUp "vmdStore - Image Gallery" ;
 
+    #### Set the size of the Window
+    set sWidth [expr [winfo vrootwidth  $::vmdStore::topGui] - 200]
+	set sHeight [expr [winfo vrootheight $::vmdStore::topGui] - 200]
+
+    wm geometry $::vmdStore::topGui.imagePopUp ${sWidth}x${sHeight}+100+100
+	$::vmdStore::topGui.imagePopUp configure -background {white}
+
+    set newImage [vmdStore::resizeImage $image]
+
     grid [ttk::label $::vmdStore::topGui.imagePopUp.image \
-        -image $image \
-        ] -in $::vmdStore::topGui.imagePopUp -row 0 -column 0 -sticky news
+        -image $newImage \
+        -anchor center \
+        ] -in $::vmdStore::topGui.imagePopUp -row 0 -column 0 -sticky news -columnspan 3
+
+    set imageList {}
+    foreach {index image} [array get vmdStore::pluginImages] {
+        lappend imageList $image
+    }
+
+    set number [array size vmdStore::pluginImages]
+    
+    if {$imageIndex == 0} {
+        set previous [lindex $imageList 0]
+        set prevI 0
+    } else {
+        set previous [lindex $imageList [expr $imageIndex - 1]]
+        set prevI [expr $imageIndex - 1]
+    }
+
+    
+    if {$imageIndex >= [expr $number - 1]} {
+        set next [lindex $imageList end]
+        set nextI [expr [llength $imageList] - 1]
+    } else {
+        set next [lindex $imageList [expr $imageIndex + 1]]
+        set nextI [expr $imageIndex + 1]
+    }
+
+
+    grid [ttk::button $::vmdStore::topGui.imagePopUp.previous \
+        -text "\< Previous" \
+        -command "destroy $::vmdStore::topGui.imagePopUp; vmdStore::zoomImage $previous $prevI" \
+        -style vmdStore.blueBg.TButton \
+        ] -in $::vmdStore::topGui.imagePopUp -row 1 -column 0 -sticky w -padx 20 -pady 10
+
+    grid [ttk::button $::vmdStore::topGui.imagePopUp.next \
+        -text "Next \>" \
+        -command "destroy $::vmdStore::topGui.imagePopUp; vmdStore::zoomImage $next $nextI" \
+        -style vmdStore.blueBg.TButton \
+        ] -in $::vmdStore::topGui.imagePopUp -row 1 -column 2 -sticky e -padx 20 -pady 10
+
+    grid columnconfigure $::vmdStore::topGui.imagePopUp     0   -weight 1
+    grid columnconfigure $::vmdStore::topGui.imagePopUp     1   -weight 1
+    grid rowconfigure $::vmdStore::topGui.imagePopUp        0   -weight 1
+
+    if {$imageIndex >= [expr $number - 1]} {
+        $::vmdStore::topGui.imagePopUp.next configure -state disabled
+    }
+
+    if {$imageIndex == 0} {
+        $::vmdStore::topGui.imagePopUp.previous configure -state disabled
+    }
 
 }
 
@@ -149,4 +226,38 @@ proc vmdStore::markDown {pathName} {
         }
         
     }
+}
+
+proc vmdStore::resizeImage {image} {
+    set sWidth [expr [winfo vrootwidth  $::vmdStore::topGui] - 200]
+	set sHeight [expr [winfo vrootheight $::vmdStore::topGui] - 200]
+
+     set imageHeight [image height $image]
+    set imageWidth [image width $image]
+
+    if {$imageHeight > $sHeight} {
+        set scaleHeight [format %.0f [expr ($imageHeight / $sHeight) + 1]]
+    } else {
+        set scaleHeight 0
+    }
+
+    if {$imageWidth > $sWidth} {
+        set scaleWidth [format %.0f [expr ($imageWidth / $sWidth) + 1]]
+    } else {
+        set scaleWidth 0
+    }
+
+
+    if {$scaleHeight == 0 && $scaleWidth == 0} {
+        set newImage $image
+    } elseif {$imageHeight >= $imageWidth} {
+        set newImage [image create photo]
+        $newImage copy $image -subsample $scaleHeight $scaleHeight
+    } elseif {$imageHeight < $imageWidth} {
+        set newImage [image create photo]
+        $newImage copy $image -subsample $scaleWidth $scaleWidth
+    }
+
+    return $newImage
+
 }

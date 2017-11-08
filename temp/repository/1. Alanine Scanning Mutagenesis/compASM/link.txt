@@ -1,0 +1,5 @@
+compASM
+https://www.fc.up.pt/PortoBioComp/database/doku.php?id=compasm
+https://link.springer.com/article/10.1007%2Fs00214-012-1271-2
+Ribeiro, J.V., Cerqueira, N.M.F.S.A., Moreira, I.S. et al. Theor Chem Acc (2012) 131: 1271. https://doi.org/10.1007/s00214-012-1271-2
+1.0
