@@ -13,7 +13,7 @@ proc vmdStore::installPlugin {plugin} {
     vmdhttpcopy "$path/$fileName.tar" "$::vmdStorePath/temp/plugin.tar"
 
     ## Untar the plugin
-    file delete -force "$vmdStore::server/plugins/$plugin"
+    file delete -force "$::vmdStorePath/plugins/$plugin"
     ::tar::untar "$::vmdStorePath/temp/plugin.tar" -dir $installPath
 
 
@@ -35,9 +35,7 @@ proc vmdStore::installPlugin {plugin} {
             set finalDelimiter $line
         }
     }
-
-    set vmdStore::installingProgress 95
-
+    
     set vmdrcPath "~/.vmdrc"
     set vmdrcLocal [open $vmdrcPath r]
     set vmdrcLocalContent [split [read $vmdrcLocal] "\n"]

@@ -63,19 +63,20 @@ proc vmdStore::start {} {
 	## Open loading GUI
 	vmdStore::loadingGui
 
-
 	## Save a backup of vmdrc
 	file copy -force ~/.vmdrc ~/.vmdrc.bak.vmdStore
 
+
 	## Check for updates on repository content
 	set openVersionFile [open $::vmdStorePath/temp/version.txt r]
-	set localVersion [read $openVersionFile]
+	set localVersion [split [read $openVersionFile] "\n"]
 	close $openVersionFile
 	vmdhttpcopy "$vmdStore::server/version.txt" "$::vmdStorePath/temp/version.txt"
 	set openVersionFile [open $::vmdStorePath/temp/version.txt r]
-	set onlineVersion [read $openVersionFile]
+	set onlineVersion [split [read $openVersionFile] "\n"]
 	close $openVersionFile
-	if {$localVersion != $onlineVersion} {
+
+	if {[lindex $localVersion 1] != [lindex $onlineVersion 1]} {
 		## Update repository
 		vmdhttpcopy "$vmdStore::server/repository.tar" "$::vmdStorePath/temp/repository.tar"
 		file delete -force "$::vmdStorePath/temp/repository"
@@ -93,16 +94,94 @@ proc vmdStore::start {} {
 	foreach line $vmdrcLocalContent {
 		if {[regexp "####vmdStore#### START" $line] == 1} {
 			regexp {####vmdStore####\sSTART\s(\S+)} $line -> plugin
-			if {$plugin == "vmdStore"} {
-
-			} else {
 			regexp {##\sVersion\s(\S+)} [lindex $vmdrcLocalContent [expr $i + 1]] -> version
 			set installedPlugin [list $plugin $version]
 			lappend vmdStore::installedPlugins $installedPlugin
-			}
 		}
 		incr i
 	}
+
+
+	## Update vmdStore
+	if {[lindex $localVersion 3] != [lindex $onlineVersion 3]} {
+		puts "Updating vmdStore..."
+		set plugin "vmdStore"
+		set path "$vmdStore::server/plugins/$plugin"
+    	set installPath "$::vmdStorePath"
+
+    	set fileName ""
+    	set fileName [append fileName $plugin "_V" $vmdStore::pluginVersion]
+
+    	## Download Plugin
+    	vmdhttpcopy "$path/$fileName.tar" "$::vmdStorePath/temp/plugin.tar"
+
+    	## Untar the plugin
+    	::tar::untar "$::vmdStorePath/temp/plugin.tar" -dir $installPath
+
+
+    	## Download VMDRC information to install
+    	vmdhttpcopy "$path/vmdrc.txt" "$::vmdStorePath/temp/vmdrc.txt"
+
+
+    	set vmdrcFile [open "$::vmdStorePath/temp/vmdrc.txt" r]
+    	set vmdrcFileContent [read $vmdrcFile]
+    	close $vmdrcFile
+
+    	set initDelimiter ""
+    	set finalDelimiter ""
+
+    	foreach line [split $vmdrcFileContent "\n"] {
+    	    if {[regexp "####vmdStore#### START" $line] == 1} {
+    	        set initDelimiter $line
+    	    } elseif {[regexp "####vmdStore#### END" $line] == 1} {
+    	        set finalDelimiter $line
+    	    }
+    	}
+	
+    	set vmdrcPath "~/.vmdrc"
+	    set vmdrcLocal [open $vmdrcPath r]
+	    set vmdrcLocalContent [split [read $vmdrcLocal] "\n"]
+	    close $vmdrcLocal
+
+	    file delete -force $vmdrcPath
+	    set vmdrcLocal [open $vmdrcPath w]
+
+	    set printOrNot 1
+	    set printOrNotA 0
+	    set i 0
+	    foreach line $vmdrcLocalContent {
+	        if {[regexp $initDelimiter $line] == 1} {
+	            set printOrNot 0
+	        } elseif {[regexp $finalDelimiter $line] == 1} {
+	            set printOrNotA 1
+	        }
+
+	        if {$printOrNot == 1 && $line != ""} {
+	            puts $vmdrcLocal $line
+	        }
+
+	        if {$printOrNotA == 1} {
+	            set printOrNot 1
+	        }
+
+	        incr i
+	    }
+	
+	    foreach line [split $vmdrcFileContent "\n"] {
+	        if {[regexp "none" $line] == 1} {
+	            set path [subst $::vmdStorePath]
+	            regexp {(.*.) none} $line -> newLine
+	            puts $vmdrcLocal "$newLine $path"
+	        } else {
+	            puts $vmdrcLocal $line
+	        }
+	    }
+
+	    close $vmdrcLocal
+
+	}
+
+	## Chech vmdStore update
 
 	destroy $::vmdStore::loadingGui
 	
