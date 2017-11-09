@@ -110,7 +110,7 @@ proc vmdStore::start {} {
     	set installPath "$::vmdStorePath"
 
     	set fileName ""
-    	set fileName [append fileName $plugin "_V" $vmdStore::pluginVersion]
+    	set fileName [append fileName $plugin "_V" [lindex $onlineVersion 3]]
 
     	## Download Plugin
     	vmdhttpcopy "$path/$fileName.tar" "$::vmdStorePath/temp/plugin.tar"

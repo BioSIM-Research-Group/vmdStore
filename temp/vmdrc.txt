@@ -1,6 +1,6 @@
-####vmdStore#### START vmdTutor
-## Version 1.0
-variable vmdTutorPath "$::vmdStorePath/plugins/vmdTutor"
-lappend auto_path "$::vmdStorePath/plugins/vmdTutor"
-vmd_install_extension vmdTutor "vmdTutor::Run" "PortoBioComp/VMD Tutor"
-####vmdStore#### END vmdTutor
+####vmdStore#### START vmdStore
+## Version 0.1
+variable vmdStorePath none
+lappend auto_path $::vmdStorePath
+vmd_install_extension vmdStore "vmdStore::start" "PortoBioComp/VMD Store"
+####vmdStore#### END vmdStore
