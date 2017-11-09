@@ -107,7 +107,7 @@ proc vmdStore::start {} {
 		puts "Updating vmdStore..."
 		set plugin "vmdStore"
 		set path "$vmdStore::server/plugins/$plugin"
-    	set installPath "$::vmdStorePath"
+    	set installPath [file dirname $::vmdStorePath]
 
     	set fileName ""
     	set fileName [append fileName $plugin "_V" [lindex $onlineVersion 3]]
