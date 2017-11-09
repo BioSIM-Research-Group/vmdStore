@@ -1,4 +1,4 @@
 Repository Version
-0.5
+0.6
 vmdStore Version
 0.1

@@ -1,0 +1,5 @@
+<h1>1. Introduction<h1>
+
+VMD is an exceptional program to visualize molecular structures. The main drawback of this software is the learning curve that turns it hard to use by non-expert users. One of the major difficulties that non-expert users have while handling VMD regards the selection of atoms. This is done through a series of keywords that the user must dominate in order to for example visualize and/or hide particular parts of the molecule, do specific transformations on the atoms of that selectin, etc.
+
+In order to overcome this issues we have developed <b>Selection Manager<b>. This plug-in allows to do common selections on molecules without requiring any prior knowledge regarding the keywords available on VMD. It makes the selection of atoms simpler and easy for non-expert users. In addition it still allows the insertion of advanced commands but alerts the user for any error that might exist on the syntax.
