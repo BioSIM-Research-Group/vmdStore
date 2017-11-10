@@ -65,7 +65,7 @@ proc vmdStore::start {} {
 
 	## Save a backup of vmdrc
 	if {[string first "Windows" $::tcl_platform(os)] != -1} {
-		file copy -force ~/vmd.rc ~/vmd.rc.bak.vmdStore
+		file copy -force ./vmd.rc ./vmd.rc.bak.vmdStore
 	} else {
 		file copy -force ~/.vmdrc ~/.vmdrc.bak.vmdStore
 	}
@@ -91,7 +91,7 @@ proc vmdStore::start {} {
 
 	## Read VMDRC to check installed plugins
 	if {[string first "Windows" $::tcl_platform(os)] != -1} {
-		set vmdrcPath "~/vmd.rc"
+		set vmdrcPath "./vmd.rc"
 	} else {
 		set vmdrcPath "~/.vmdrc"
 	}
@@ -148,11 +148,11 @@ proc vmdStore::start {} {
     	}
 	
 		if {[string first "Windows" $::tcl_platform(os)] != -1} {
-			set vmdrcPath "~/vmd.rc"
+			set vmdrcPath "./vmd.rc"
 		} else {
 			set vmdrcPath "~/.vmdrc"
 		}
-		
+
 	    set vmdrcLocal [open $vmdrcPath r]
 	    set vmdrcLocalContent [split [read $vmdrcLocal] "\n"]
 	    close $vmdrcLocal

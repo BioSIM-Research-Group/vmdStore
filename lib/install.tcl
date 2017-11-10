@@ -37,7 +37,7 @@ proc vmdStore::installPlugin {plugin} {
     }
     
     if {[string first "Windows" $::tcl_platform(os)] != -1} {
-		set vmdrcPath "~/vmd.rc"
+		set vmdrcPath "./vmd.rc"
 	} else {
 		set vmdrcPath "~/.vmdrc"
 	}
@@ -96,7 +96,7 @@ proc vmdStore::uninstallPlugin {plugin} {
     $vmdStore::topGui.frame1.right.f3.uninstall  configure -state disabled
     
     if {[string first "Windows" $::tcl_platform(os)] != -1} {
-		set vmdrcPath "~/vmd.rc"
+		set vmdrcPath "./vmd.rc"
 	} else {
 		set vmdrcPath "~/.vmdrc"
 	}
