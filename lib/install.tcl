@@ -36,7 +36,12 @@ proc vmdStore::installPlugin {plugin} {
         }
     }
     
-    set vmdrcPath "~/.vmdrc"
+    if {[string first "Windows" $::tcl_platform(os)] != -1} {
+		set vmdrcPath "~/vmd.rc"
+	} else {
+		set vmdrcPath "~/.vmdrc"
+	}
+
     set vmdrcLocal [open $vmdrcPath r]
     set vmdrcLocalContent [split [read $vmdrcLocal] "\n"]
     close $vmdrcLocal
@@ -90,7 +95,12 @@ proc vmdStore::uninstallPlugin {plugin} {
     $vmdStore::topGui.frame1.right.f3.install  configure -text "Install" -style vmdStore.greenBg.TButton
     $vmdStore::topGui.frame1.right.f3.uninstall  configure -state disabled
     
-    set vmdrcPath "~/.vmdrc"
+    if {[string first "Windows" $::tcl_platform(os)] != -1} {
+		set vmdrcPath "~/vmd.rc"
+	} else {
+		set vmdrcPath "~/.vmdrc"
+	}
+
     set vmdrcLocal [open $vmdrcPath r]
     set vmdrcLocalContent [split [read $vmdrcLocal] "\n"]
     close $vmdrcLocal
