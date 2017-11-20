@@ -26,7 +26,7 @@ namespace eval vmdStore:: {
 		
 		#### Program Variables
 		## General
-		variable version	    	"0.1"
+		variable version	    	"0.2"
 
 		#GUI
         variable topGui             ".vmdStore"
@@ -35,7 +35,7 @@ namespace eval vmdStore:: {
 		variable askDir				".vmdStoreAskDir"
         
         #Read External Package
-        variable server				"http://henriquefernandes.pt/vmdStore"
+        variable server				"http://www.compbiochem.org/Software/vmdStore"
 		variable externalPackage    "$::vmdStorePath/temp/repository"
 		variable installLink		""
 		variable webPageLink		""
