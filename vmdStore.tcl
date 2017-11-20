@@ -26,7 +26,7 @@ namespace eval vmdStore:: {
 		
 		#### Program Variables
 		## General
-		variable version	    	"0.2"
+		variable version	    	"0.3"
 
 		#GUI
         variable topGui             ".vmdStore"
@@ -163,6 +163,16 @@ proc vmdStore::start {} {
 	    set printOrNot 1
 	    set printOrNotA 0
 	    set i 0
+	    foreach line [split $vmdrcFileContent "\n"] {
+	        if {[regexp "none" $line] == 1} {
+	            set path [subst $::vmdStorePath]
+	            regexp {(.*.) none} $line -> newLine
+	            puts $vmdrcLocal "$newLine $path"
+	        } else {
+	            puts $vmdrcLocal $line
+	        }
+	    }
+
 	    foreach line $vmdrcLocalContent {
 	        if {[regexp $initDelimiter $line] == 1} {
 	            set printOrNot 0
@@ -181,15 +191,6 @@ proc vmdStore::start {} {
 	        incr i
 	    }
 	
-	    foreach line [split $vmdrcFileContent "\n"] {
-	        if {[regexp "none" $line] == 1} {
-	            set path [subst $::vmdStorePath]
-	            regexp {(.*.) none} $line -> newLine
-	            puts $vmdrcLocal "$newLine $path"
-	        } else {
-	            puts $vmdrcLocal $line
-	        }
-	    }
 
 	    close $vmdrcLocal
 
