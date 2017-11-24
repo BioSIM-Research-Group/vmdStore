@@ -1,5 +1,0 @@
-chemPathTracker
-https://www.fc.up.pt/PortoBioComp/database/doku.php?id=chem-path-tracker
-http://onlinelibrary.wiley.com/doi/10.1111/cbdd.12349/abstract
-Ribeiro, J. V., Cerqueira, N. M. F. S. A., Fernandes, P. A. and Ramos, M. J. (2014), chem-path-tracker: An Automated Tool to Analyze Chemical Motifs in Molecular Structures. Chem Biol Drug Des, 84: 44–53. doi:10.1111/cbdd.12349
-1.0

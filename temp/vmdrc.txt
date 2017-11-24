@@ -1,6 +1,0 @@
-####vmdStore#### START vmdStore
-## Version 0.2
-variable vmdStorePath none
-lappend auto_path $::vmdStorePath
-vmd_install_extension vmdStore "vmdStore::start" "PortoBioComp/VMD Store"
-####vmdStore#### END vmdStore

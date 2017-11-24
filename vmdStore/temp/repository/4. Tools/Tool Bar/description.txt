@@ -1,0 +1,2 @@
+<h1>Tool Bar<h1>
+The Tool Bar extension has the major tools available on VMD.
