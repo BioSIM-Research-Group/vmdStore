@@ -1,6 +1,6 @@
-####vmdStore#### START toolBar
-## Version 1.2
-lappend auto_path "$::vmdStorePath/plugins/toolBar"
-vmd_install_extension toolBar "toolBar::startGui" "PortoBioComp/Tool Bar"
-toolBar::startGui
-####vmdStore#### END toolBar
+####vmdStore#### START molUP
+## Version 1.1.1
+variable molUPpath "$::vmdStorePath/plugins/molUP"
+lappend auto_path "$::vmdStorePath/plugins/molUP"
+vmd_install_extension molUP "molUP::start" "PortoBioComp/molUP" 
+####vmdStore#### END molUP
