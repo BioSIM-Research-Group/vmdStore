@@ -29,7 +29,7 @@ namespace eval vmdStore:: {
 		
 		#### Program Variables
 		## General
-		variable version	    	"0.3"
+		variable version	    	"0.4"
 
 		#GUI
         variable topGui             ".vmdStore"
@@ -124,10 +124,10 @@ proc vmdStore::start {} {
 			catch {exec unzip "$::vmdStorePath/temp/plugin.zip" -d "$::vmdStorePath/temp/plugin"}
 		}
 
-		catch {file delete -force "$::vmdStorePath/temp/plugin.zip"}
-		catch {file copy -force "$::vmdStorePath/temp/plugin/vmdStore-$onlineVersion/vmdStore" "$::vmdStorePath"}
+		file delete -force "$::vmdStorePath/temp/plugin.zip"
+		file copy -force "$::vmdStorePath/temp/plugin/vmdStore-$onlineVersion/vmdStore" "$::vmdStorePath"
 
-		
+
 		#Update VMDRC file
 		set vmdrcFile [open "$::vmdStorePath/temp/plugin/vmdStore-$onlineVersion/install.txt" r]
     	set vmdrcFileContent [read $vmdrcFile]
