@@ -6,6 +6,9 @@ namespace eval vmdStore:: {
 	
 		#### Load Packages				
 		package require Tk
+		package require http
+		package forget tls
+		package require tls	1.6.7.1
 
         ## GUI
         package require vmdStoreTopGui                      0.1

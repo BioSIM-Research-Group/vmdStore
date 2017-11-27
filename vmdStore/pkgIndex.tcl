@@ -17,3 +17,18 @@ package ifneeded vmdStoreBrowser                                1.0 [list source
 package ifneeded vmdStoreSearch                                 0.1 [list source [file join $dir/lib/search.tcl]]
 package ifneeded vmdStoreInstallPlugins                         0.1 [list source [file join $dir/lib/install.tcl]]
 package ifneeded tar                                            0.7.1 [list source [file join $dir/lib/tar.tcl]]
+
+if {[lindex "$::tcl_platform(os)" 0] == "Windows"} {
+    package ifneeded tls 1.6.7.1 \
+    "[list source [file join $dir/lib/tls/windows tls.tcl]] ; \
+     [list tls::initlib $dir/lib/tls/windows tls1671.dll]"
+} elseif {[lindex "$::tcl_platform(os)" 0] == "Darwin"} {
+    package ifneeded tls 1.6.7.1     "[list source [file join $dir/lib/tls/macOS tls.tcl]] ;      [list tls::initlib $dir/lib/tls/macOS libtls1.6.7.1.dylib]"
+} elseif {[lindex "$::tcl_platform(os)" 0] == "Linux"} {
+    if {$::tcl_platform(machine) == "i686"} {
+        package ifneeded tls 1.6.7.1  "[list source [file join $dir/lib/tls/linux/i868 tls.tcl]] ;  [list tls::initlib $dir/lib/tls/linux/i868 libtls1.6.7.1.so]"
+    } elseif {$::tcl_platform(machine) == "x86_64"} {
+        package ifneeded tls 1.6.7.1  "[list source [file join $dir/lib/tls/linux/x86_64 tls.tcl]] ;  [list tls::initlib $dir/lib/tls/linux/x86_64 libtls1.6.7.1.so]"
+
+    }
+}
