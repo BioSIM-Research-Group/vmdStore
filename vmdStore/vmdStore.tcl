@@ -110,22 +110,24 @@ proc vmdStore::start {} {
 		#Update vmdStore
 		puts "A new version of vmdStore is available. It will be installed automatically."
 	
+		catch {file delete -force "$::vmdStorePath/temp"}
+		file mkdir "$::vmdStorePath/temp"
+
 		set url "https://github.com/portobiocomp/vmdStore/archive/$onlineVersion.zip"
 		set token [::http::geturl $url -timeout 30000]
 		set data [::http::data $token]
 		regexp -all {href=\"(\S+)\"} $data --> url
 		vmdhttpcopy $url "$::vmdStorePath/temp/plugin.zip"
 		
-		catch {file delete -force "$::vmdStorePath/temp/plugin"}
 
 		if {[string first "Windows" $::tcl_platform(os)] != -1} {
 			
 		} else {
-			catch {exec unzip "$::vmdStorePath/temp/plugin.zip" -d "$::vmdStorePath/temp/plugin"}
+			catch {exec unzip "$::vmdStorePath/temp/plugin.zip" -d "$::vmdStorePath/temp"} a
 		}
 
-		file delete -force "$::vmdStorePath/temp/plugin.zip"
-		file copy -force "$::vmdStorePath/temp/plugin/vmdStore-$onlineVersion/vmdStore" "$::vmdStorePath"
+		#file delete -force "$::vmdStorePath/temp/plugin.zip"
+		file copy -force "$::vmdStorePath/temp/vmdStore-$onlineVersion/vmdStore" "[file dirname "$::vmdStorePath"]"
 
 
 		#Update VMDRC file

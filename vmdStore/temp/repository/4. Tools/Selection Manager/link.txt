@@ -1,5 +1,0 @@
-selectionManager
-https://www.fc.up.pt/PortoBioComp/database/doku.php?id=selection_manager
-
-
-1.1
