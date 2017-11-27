@@ -116,19 +116,82 @@ proc vmdStore::start {} {
 		regexp -all {href=\"(\S+)\"} $data --> url
 		vmdhttpcopy $url "$::vmdStorePath/temp/plugin.zip"
 		
+		catch {file delete -force "$::vmdStorePath/temp/plugin"}
+
 		if {[string first "Windows" $::tcl_platform(os)] != -1} {
 			
 		} else {
-			catch {file delete -force "$::vmdStorePath/temp/plugin"}
 			catch {exec unzip "$::vmdStorePath/temp/plugin.zip" -d "$::vmdStorePath/temp/plugin"}
-			catch {file delete -force "$::vmdStorePath/temp/plugin.zip"}
 		}
 
-		#Update VMDRC file
+		catch {file delete -force "$::vmdStorePath/temp/plugin.zip"}
+		catch {file copy -force "$::vmdStorePath/temp/plugin/vmdStore-$onlineVersion/vmdStore" "$::vmdStorePath"}
+
 		
+		#Update VMDRC file
+		set vmdrcFile [open "$::vmdStorePath/temp/plugin/vmdStore-$onlineVersion/install.txt" r]
+    	set vmdrcFileContent [read $vmdrcFile]
+    	close $vmdrcFile
+		if {[string first "Windows" $::tcl_platform(os)] != -1} {
+			set vmdrcPath "$env(HOME)/vmd.rc"
+		} else {
+			set vmdrcPath "~/.vmdrc"
+		}
+
+		foreach line [split $vmdrcFileContent "\n"] {
+    	    if {[regexp "####vmdStore#### START" $line] == 1} {
+    	        set initDelimiter $line
+    	    } elseif {[regexp "####vmdStore#### END" $line] == 1} {
+    	        set finalDelimiter $line
+    	    }
+    	}
+
+		set vmdrcLocal [open $vmdrcPath r]
+	    set vmdrcLocalContent [split [read $vmdrcLocal] "\n"]
+	    close $vmdrcLocal
+
+	    file delete -force $vmdrcPath
+	    set vmdrcLocal [open $vmdrcPath w]
+
+		set printOrNot 1
+	    set printOrNotA 0
+	    set i 0
+	    foreach line [split $vmdrcFileContent "\n"] {
+	        if {[regexp "none" $line] == 1} {
+	            set path [subst $::vmdStorePath]
+	            regexp {(.*.) none} $line -> newLine
+	            puts $vmdrcLocal "$newLine $path"
+	        } elseif {[regexp "XXversionXX" $line] == 1} {
+				regexp {(.*.) XXversionXX} $line -> newLine
+				puts $vmdrcLocal "$newLine $onlineVersion"
+			} else {
+	            puts $vmdrcLocal $line
+	        }
+	    }
+
+	    foreach line $vmdrcLocalContent {
+	        if {[regexp $initDelimiter $line] == 1} {
+	            set printOrNot 0
+	        } elseif {[regexp $finalDelimiter $line] == 1} {
+	            set printOrNotA 1
+	        }
+
+	        if {$printOrNot == 1 && $line != ""} {
+	            puts $vmdrcLocal $line
+	        }
+
+	        if {$printOrNotA == 1} {
+	            set printOrNot 1
+	        }
+
+	        incr i
+	    }
+	
+
+	    close $vmdrcLocal
 
 	} else {
-		#Reunning the latest version
+		#Running the latest version
 		puts "You are running the latest version of vmdStore."
 	}
 
