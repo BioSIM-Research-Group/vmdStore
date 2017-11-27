@@ -68,38 +68,19 @@ proc vmdStore::start {} {
 
 	## Save a backup of vmdrc
 	if {[string first "Windows" $::tcl_platform(os)] != -1} {
-		file copy -force ./vmd.rc ./vmd.rc.bak.vmdStore
+		set homePathWin $env(HOME)
+		catch {file copy -force "$homePathWin/vmd.rc" "$homePathWin/vmd.rc.bak.vmdStore"}
 	} else {
-		file copy -force ~/.vmdrc ~/.vmdrc.bak.vmdStore
+		catch {file copy -force ~/.vmdrc ~/.vmdrc.bak.vmdStore}
 	}
 
-
-	## Check for updates on repository content
-	set openVersionFile [open $::vmdStorePath/temp/version.txt r]
-	set localVersion [split [read $openVersionFile] "\n"]
-	close $openVersionFile
-	vmdhttpcopy "$vmdStore::server/version.txt" "$::vmdStorePath/temp/version.txt"
-	set openVersionFile [open $::vmdStorePath/temp/version.txt r]
-	set onlineVersion [split [read $openVersionFile] "\n"]
-	close $openVersionFile
-
-	if {[lindex $localVersion 1] != [lindex $onlineVersion 1]} {
-		## Update repository
-		vmdhttpcopy "$vmdStore::server/repository.tar" "$::vmdStorePath/temp/repository.tar"
-		file delete -force "$::vmdStorePath/temp/repository"
-		::tar::untar "$::vmdStorePath/temp/repository.tar" -dir "$::vmdStorePath/temp"
-	} else {
-		## Ignore
-	}
-
-	## Read VMDRC to check installed plugins
+	## Read VMDRC to check the version of all installed plugins
 	if {[string first "Windows" $::tcl_platform(os)] != -1} {
-		set vmdrcPath "./vmd.rc"
+		set vmdrcPath "$env(HOME)/vmd.rc"
 	} else {
 		set vmdrcPath "~/.vmdrc"
 	}
-	
-    set vmdrcLocal [open $vmdrcPath r]
+	set vmdrcLocal [open $vmdrcPath r]
     set vmdrcLocalContent [split [read $vmdrcLocal] "\n"]
 	close $vmdrcLocal
 	set i 0
@@ -113,94 +94,46 @@ proc vmdStore::start {} {
 		incr i
 	}
 
-
 	## Update vmdStore
-	if {[lindex $localVersion 3] != [lindex $onlineVersion 3]} {
-		puts "Updating vmdStore..."
-		set plugin "vmdStore"
-		set path "$vmdStore::server/plugins/$plugin"
-    	set installPath [file dirname $::vmdStorePath]
-
-    	set fileName ""
-    	set fileName [append fileName $plugin "_V" [lindex $onlineVersion 3]]
-
-    	## Download Plugin
-    	vmdhttpcopy "$path/$fileName.tar" "$::vmdStorePath/temp/plugin.tar"
-
-    	## Untar the plugin
-    	::tar::untar "$::vmdStorePath/temp/plugin.tar" -dir $installPath
-
-
-    	## Download VMDRC information to install
-    	vmdhttpcopy "$path/vmdrc.txt" "$::vmdStorePath/temp/vmdrc.txt"
-
-
-    	set vmdrcFile [open "$::vmdStorePath/temp/vmdrc.txt" r]
-    	set vmdrcFileContent [read $vmdrcFile]
-    	close $vmdrcFile
-
-    	set initDelimiter ""
-    	set finalDelimiter ""
-
-    	foreach line [split $vmdrcFileContent "\n"] {
-    	    if {[regexp "####vmdStore#### START" $line] == 1} {
-    	        set initDelimiter $line
-    	    } elseif {[regexp "####vmdStore#### END" $line] == 1} {
-    	        set finalDelimiter $line
-    	    }
-    	}
+	# Getting the local Version of vmdStore
+	set localVersion [lindex [lindex $vmdStore::installedPlugins [lsearch -index 0 $vmdStore::installedPlugins "vmdStore"]] 1]
 	
+	# Getting the online Version of vmdStore
+	set url "https://github.com/portobiocomp/vmdStore/releases/latest"
+	::http::register https 443 ::tls::socket
+	set token [::http::geturl $url -timeout 30000]
+	set data [::http::data $token]
+	regexp -all {tag\/(\S+)\"} $data --> onlineVersion
+
+	# Check if an update is needed
+	if {$localVersion != $onlineVersion} {
+		#Update vmdStore
+		puts "A new version of vmdStore is available. It will be installed automatically."
+	
+		set url "https://github.com/portobiocomp/vmdStore/archive/$onlineVersion.zip"
+		set token [::http::geturl $url -timeout 30000]
+		set data [::http::data $token]
+		regexp -all {href=\"(\S+)\"} $data --> url
+		vmdhttpcopy $url "$::vmdStorePath/temp/plugin.zip"
+		
 		if {[string first "Windows" $::tcl_platform(os)] != -1} {
-			set vmdrcPath "./vmd.rc"
+			
 		} else {
-			set vmdrcPath "~/.vmdrc"
+			catch {file delete -force "$::vmdStorePath/temp/plugin"}
+			catch {exec unzip "$::vmdStorePath/temp/plugin.zip" -d "$::vmdStorePath/temp/plugin"}
+			catch {file delete -force "$::vmdStorePath/temp/plugin.zip"}
 		}
 
-	    set vmdrcLocal [open $vmdrcPath r]
-	    set vmdrcLocalContent [split [read $vmdrcLocal] "\n"]
-	    close $vmdrcLocal
+		#Update VMDRC file
+		
 
-	    file delete -force $vmdrcPath
-	    set vmdrcLocal [open $vmdrcPath w]
-
-	    set printOrNot 1
-	    set printOrNotA 0
-	    set i 0
-	    foreach line [split $vmdrcFileContent "\n"] {
-	        if {[regexp "none" $line] == 1} {
-	            set path [subst $::vmdStorePath]
-	            regexp {(.*.) none} $line -> newLine
-	            puts $vmdrcLocal "$newLine $path"
-	        } else {
-	            puts $vmdrcLocal $line
-	        }
-	    }
-
-	    foreach line $vmdrcLocalContent {
-	        if {[regexp $initDelimiter $line] == 1} {
-	            set printOrNot 0
-	        } elseif {[regexp $finalDelimiter $line] == 1} {
-	            set printOrNotA 1
-	        }
-
-	        if {$printOrNot == 1 && $line != ""} {
-	            puts $vmdrcLocal $line
-	        }
-
-	        if {$printOrNotA == 1} {
-	            set printOrNot 1
-	        }
-
-	        incr i
-	    }
-	
-
-	    close $vmdrcLocal
-
+	} else {
+		#Reunning the latest version
+		puts "You are running the latest version of vmdStore."
 	}
 
-	## Chech vmdStore update
 
+	## Chech vmdStore update
 	destroy $::vmdStore::loadingGui
 	
 	if {[winfo exists $::vmdStore::topGui]} {wm deiconify $::vmdStore::topGui ;return $::vmdStore::topGui}
