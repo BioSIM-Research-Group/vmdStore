@@ -136,7 +136,7 @@ proc vmdStore::start {} {
 		vmdStoreCopyFiles "$::vmdStorePath/temp/vmdStore-$onlineVersion/vmdStore" "$::vmdStorePath"
 
 		#Update VMDRC file
-		set vmdrcFile [open "$::vmdStorePath/temp/plugin/vmdStore-$onlineVersion/install.txt" r]
+		set vmdrcFile [open "$::vmdStorePath/temp/vmdStore-$onlineVersion/install.txt" r]
     	set vmdrcFileContent [read $vmdrcFile]
     	close $vmdrcFile
 		if {[string first "Windows" $::tcl_platform(os)] != -1} {
