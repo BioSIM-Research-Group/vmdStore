@@ -37,6 +37,16 @@ proc vmdStore::readExternalPackage {path} {
     }
 
     
+    ##### Get descriptions
+    set pluginDescriptions {}
+    foreach plugin $fillList {
+        set plugin [lindex $plugin end]
+        ## Get the README file
+        set token [::http::geturl "https://raw.githubusercontent.com/portobiocomp/$plugin/master/README.md" -timeout 30000]
+        set data [split [::http::data $token] "\n"]
+        set a [list $plugin $data]
+        lappend pluginDescriptions $a
+    }
 
 }
 
