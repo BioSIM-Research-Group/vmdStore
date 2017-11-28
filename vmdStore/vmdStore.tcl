@@ -132,8 +132,8 @@ proc vmdStore::start {} {
 			exec unzip -q -o "$::vmdStorePath/temp/plugin.zip" -d "$::vmdStorePath/temp"
 		}
 
-		file copy -force "$::vmdStorePath/temp/vmdStore-$onlineVersion/vmdStore" "[file dirname "$::vmdStorePath"]"
-
+		#Copy Files
+		vmdStoreCopyFiles "$::vmdStorePath/temp/vmdStore-$onlineVersion/vmdStore" "[file dirname "$::vmdStorePath"]"
 
 		#Update VMDRC file
 		set vmdrcFile [open "$::vmdStorePath/temp/plugin/vmdStore-$onlineVersion/install.txt" r]
@@ -232,4 +232,19 @@ proc vmdStoreDownlodProgress {token total current} {
 		set units "GB"
 	}
 	puts "Downloading $current $units of $total $units"
+}
+
+proc vmdStoreCopyFiles {origin destination} {
+	set list [glob -nocomplain -directory "$origin" *]
+	foreach item $list {
+		if {[file isdirectory $item] == 1} {
+			set newDestination "$destination/[file tail $item]"
+			if {[file exists "$newDestination"] != 1} {
+				file mkdir "$newDestination"
+			}
+			vmdStoreCopyFiles "$item" "$newDestination"
+		} else {
+			file copy --force "$item" "$destination"
+		}
+	}
 }
