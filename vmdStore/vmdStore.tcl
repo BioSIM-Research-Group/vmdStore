@@ -133,7 +133,7 @@ proc vmdStore::start {} {
 		}
 
 		#Copy Files
-		vmdStoreCopyFiles "$::vmdStorePath/temp/vmdStore-$onlineVersion/vmdStore" "[file dirname "$::vmdStorePath"]"
+		vmdStoreCopyFiles "$::vmdStorePath/temp/vmdStore-$onlineVersion/vmdStore" "$::vmdStorePath"
 
 		#Update VMDRC file
 		set vmdrcFile [open "$::vmdStorePath/temp/plugin/vmdStore-$onlineVersion/install.txt" r]
@@ -244,7 +244,7 @@ proc vmdStoreCopyFiles {origin destination} {
 			}
 			vmdStoreCopyFiles "$item" "$newDestination"
 		} else {
-			file copy --force "$item" "$destination"
+			file copy -force "$item" "$destination"
 		}
 	}
 }
