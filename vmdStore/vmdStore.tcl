@@ -51,13 +51,13 @@ namespace eval vmdStore:: {
 
 		#Markdown
 		variable markdown			[list \
-									[list "<h1>" "Helvetica 24 bold"] \
-									[list "<h2>" "Helvetica 22 bold"] \
-									[list "<h3>" "Helvetica 20 bold"] \
-									[list "<h4>" "Helvetica 16 bold"] \
-									[list "<b>" "-weight bold"] \
-									[list "<i>" "-slant italic"] \
-									[list "<bi>" "-weight bold -slant italic"] \
+									[list "####" "\n" "Helvetica 10 bold" "h4"] \
+									[list "###" "\n" "Helvetica 14 bold" "h3"] \
+									[list "##" "\n" "Helvetica 18 bold" "h2"] \
+									[list "#" "\n" "Helvetica 22 bold" "h1"] \
+									[list "**_" "_**" "-weight bold -slant italic" "bolditalic"] \
+									[list "**" "**" "-weight bold" "bold"] \
+									[list "_" "_" "-slant italic" "italic"] \
 									]
 		
 }

@@ -38,24 +38,22 @@ proc vmdStore::readExternalPackage {path} {
 
     
     ##### Get descriptions
-    set pluginDescriptions {}
+    variable pluginDescriptions {}
     foreach plugin $fillList {
         set plugin [lindex $plugin end]
         ## Get the README file
         set token [::http::geturl "https://raw.githubusercontent.com/portobiocomp/$plugin/master/README.md" -timeout 30000]
-        set data [split [::http::data $token] "\n"]
-        set a [list $plugin $data]
-        lappend pluginDescriptions $a
+        set data [::http::data $token]
+        set a [list "$plugin" "$data"]
+        lappend vmdStore::pluginDescriptions $a
     }
 
 }
 
 
-proc vmdStore::fillData {category plugin dir} {
-    set path "$dir/$category/$plugin/description.txt"
-    set file [open $path r]
-    set description [read $file]
-    close $file
+proc vmdStore::fillData {category plugin} {
+    set token [::http::geturl "https://raw.githubusercontent.com/portobiocomp/$plugin/master/README.md" -timeout 30000]
+    set description [::http::data $token]
     
     ## Title
     $vmdStore::topGui.frame1.right.f0.pluginTitle configure -text $plugin
@@ -235,22 +233,49 @@ proc vmdStore::zoomImage {image imageIndex} {
 
 proc vmdStore::markDown {pathName} {
     foreach tagList $vmdStore::markdown {
-        set tag [lindex $tagList 0]
-        set tagLength [string length $tag]
+        set tag0 [lindex $tagList 0]
+        set tag1 [lindex $tagList 1]
+        set tagName [lindex $tagList 3]
+        set tagLength0 [string length $tag0]
+        set tagLength1 [string length $tag1]
 
-        set tagPos [$pathName search -all -strictlimits "$tag" 0.0 end]
-        if {[llength $tagPos] != 0} {
-            set numberTags [expr [llength $tagPos] / 2]
-            for {set index 0} { $index < $numberTags } { incr index } {
-                set tagPos [$pathName search -all -strictlimits "$tag" 0.0 end]
-                $pathName tag add $tag [lindex $tagPos 0] [lindex $tagPos 1]
-                $pathName tag configure $tag -font [lindex $tagList 1]
-                set end1 [split [lindex $tagPos 0] "."]
-                set end2 [split [lindex $tagPos 1] "."]
-                $pathName delete "[lindex $tagPos 0]" "[lindex $end1 0].[expr [lindex $end1 1] + $tagLength]"  "[lindex $tagPos 1]" "[lindex $end2 0].[expr [lindex $end2 1] + $tagLength]"
+        set tagPos0 [$pathName search -all -strictlimits "$tag0" 0.0 end]
+        if {[llength $tagPos0] != 0} {
+            for {set index 0} { $index < [llength $tagPos0] } { incr index } {
+                set pos0 [$pathName search -strictlimits "$tag0" 0.0 end]
+                set pos1 [$pathName search -strictlimits "$tag1" $pos0 end]
+                $pathName tag add $tagName $pos0 $pos1
+                $pathName tag configure $tagName -font [lindex $tagList 2]
+                set end1 [split $pos0 "."]
+                set end2 [split $pos1 "."]
+                $pathName delete "$pos0" "[lindex $end1 0].[expr [lindex $end1 1] + $tagLength0]"  "$pos1" "[lindex $end2 0].[expr [lindex $end2 1] + $tagLength1]"
             }
         }
         
+    }
+
+    ## Delete Images from the Description Text
+    set tagPos [$pathName search -all -strictlimits "!" 0.0 end]
+    for {set index 0} { $index < [llength $tagPos] } { incr index } {
+        set pos0 [$pathName search -strictlimits "!" 0.0 end]
+        set pos1 [$pathName search -strictlimits "\n" $pos0 end]
+        set end1 [split $pos1 "."]
+        $pathName delete "$pos0" "[lindex $end1 0].[expr [lindex $end1 1] + 3]"
+    }
+
+    ## Links
+    set tagPos [$pathName search -all -strictlimits "\[" 0.0 end]
+    for {set index 0} { $index < [llength $tagPos] } { incr index } {
+        set pos0 [$pathName search -strictlimits "\[" 0.0 end]
+        set pos1 [$pathName search -strictlimits "\)" $pos0 end]
+        set pos3 [split [$pathName search -strictlimits "\(" $pos0 end] "."]
+        set link [$pathName get "[lindex $pos3 0].[expr [lindex $pos3 1] + 1]" $pos1]
+        set end0 [split $pos0 "."]
+        set end1 [split $pos1 "."]
+        $pathName tag add "$link" "[lindex $end0 0].[expr [lindex $end0 1] + 1]" "[lindex $pos3 0].[expr [lindex $pos3 1] - 1]"
+        $pathName tag configure "$link" -foreground #0066ff -underline true
+        $pathName tag bind "$link" <1> "vmdStore::browser $link"
+        $pathName delete "$pos0" "[lindex $end0 0].[expr [lindex $end0 1] + 1]" "[lindex $pos3 0].[expr [lindex $pos3 1] - 1]" "[lindex $end1 0].[expr [lindex $end1 1] + 1]"
     }
 }
 

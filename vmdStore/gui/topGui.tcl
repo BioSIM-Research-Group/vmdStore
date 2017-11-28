@@ -110,7 +110,7 @@ proc vmdStore::topGui {} {
         
         if {$category != ""} {
             set category [$vmdStore::topGui.frame1.left.f0.tree item $category -text]
-            vmdStore::fillData $category $plugin $vmdStore::externalPackage
+            vmdStore::fillData $category $plugin
         }
     }
 
