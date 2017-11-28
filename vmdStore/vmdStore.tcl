@@ -63,18 +63,19 @@ namespace eval vmdStore:: {
 
 
 proc vmdStore::start {} {
-	## Open loading GUI
+	#### Open loading GUI
 	vmdStore::loadingGui
 
-	## Save a backup of vmdrc
+
+	#### Save a backup of vmdrc
 	if {[string first "Windows" $::tcl_platform(os)] != -1} {
-		set homePathWin $env(HOME)
-		catch {file copy -force "$homePathWin/vmd.rc" "$homePathWin/vmd.rc.bak.vmdStore"}
+		catch {file copy -force "$env(HOME)/vmd.rc" "$env(HOME)/vmd.rc.bak.vmdStore"}
 	} else {
 		catch {file copy -force ~/.vmdrc ~/.vmdrc.bak.vmdStore}
 	}
 
-	## Read VMDRC to check the version of all installed plugins
+
+	#### Read VMDRC to check the version of all installed plugins
 	if {[string first "Windows" $::tcl_platform(os)] != -1} {
 		set vmdrcPath "$env(HOME)/vmd.rc"
 	} else {
@@ -94,7 +95,8 @@ proc vmdStore::start {} {
 		incr i
 	}
 
-	## Update vmdStore
+
+	#### Update vmdStore
 	# Getting the local Version of vmdStore
 	set localVersion [lindex [lindex $vmdStore::installedPlugins [lsearch -index 0 $vmdStore::installedPlugins "vmdStore"]] 1]
 	
@@ -117,16 +119,19 @@ proc vmdStore::start {} {
 		set token [::http::geturl $url -timeout 30000]
 		set data [::http::data $token]
 		regexp -all {href=\"(\S+)\"} $data --> url
-		vmdhttpcopy $url "$::vmdStorePath/temp/plugin.zip"
-		
+		puts "Downloading the update from: $url"
+		set outputFile  [open "$::vmdStorePath/temp/plugin.zip" w]
+		set token [::http::geturl $url -channel $outputFile -timeout 1800000 -progress vmdStoreDownlodProgress]
+		#array set meta $:token(meta)
+		#set fileSize $meta(Content-Length)
+		close $outputFile	
 
 		if {[string first "Windows" $::tcl_platform(os)] != -1} {
 			
 		} else {
-			catch {exec unzip "$::vmdStorePath/temp/plugin.zip" -d "$::vmdStorePath/temp"} a
+			exec unzip -q -o "$::vmdStorePath/temp/plugin.zip" -d "$::vmdStorePath/temp"
 		}
 
-		#file delete -force "$::vmdStorePath/temp/plugin.zip"
 		file copy -force "$::vmdStorePath/temp/vmdStore-$onlineVersion/vmdStore" "[file dirname "$::vmdStorePath"]"
 
 
@@ -201,10 +206,30 @@ proc vmdStore::start {} {
 	## Chech vmdStore update
 	destroy $::vmdStore::loadingGui
 	
-	if {[winfo exists $::vmdStore::topGui]} {wm deiconify $::vmdStore::topGui ;return $::vmdStore::topGui}
-	### Open the GUI
-	vmdStore::topGui
-	update
-	return $::vmdStore::topGui
+	#if {[winfo exists $::vmdStore::topGui]} {wm deiconify $::vmdStore::topGui ;return $::vmdStore::topGui}
+	#### Open the GUI
+	#vmdStore::topGui
+	#update
+	#return $::vmdStore::topGui
 
+}
+
+proc vmdStoreDownlodProgress {token total current} {
+	set units "Bytes"
+	if {$total > 1024} {
+		set current [format %.2f [expr $current / 1024]]
+		set total [format %.2f [expr $total / 1024]]
+		set units "KB"
+	}
+	if {$total > 1024} {
+		set current [format %.2f [expr $current / 1024]]
+		set total [format %.2f [expr $total / 1024]]
+		set units "MB"
+	}
+	if {$total > 1024} {
+		set current [format %.2f [expr $current / 1024]]
+		set total [format %.2f [expr $total / 1024]]
+		set units "GB"
+	}
+	puts "Downloading $current $units of $total $units"
 }
