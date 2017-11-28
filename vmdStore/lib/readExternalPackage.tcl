@@ -9,7 +9,7 @@ proc vmdStore::readExternalPackage {path} {
     set categoryList {}
     set category ""
     foreach line $data {
-        if {ignore == "no"} {
+        if {$ignore == "no"} {
             if {[string first "###" $line] != -1} {
                 set category [lrange $line 1 end]
                 lappend categoryList $category
@@ -27,11 +27,11 @@ proc vmdStore::readExternalPackage {path} {
 
     set i 0
     ## Fill the tree with the categories
-    foreach category [lsort -dictionary -increasing -nocase $categoryList] {
+    foreach category $categoryList {
         $vmdStore::topGui.frame1.left.f0.tree insert "" end -id $i -text $category
-        set plugins [lsearch -all -index 0 $fillList $category]
+        set plugins [lsearch -all -index 0 -inline $fillList $category]
         foreach plugin $plugins {
-            $vmdStore::topGui.frame1.left.f0.tree insert $i end -text $plugin
+            $vmdStore::topGui.frame1.left.f0.tree insert $i end -text [lindex $plugin end]
         }
         incr i
     }
