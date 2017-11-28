@@ -167,7 +167,7 @@ proc vmdStore::start {} {
 	        if {[regexp "none" $line] == 1} {
 	            set path [subst $::vmdStorePath]
 	            regexp {(.*.) none} $line -> newLine
-	            puts $vmdrcLocal "$newLine $path"
+	            puts $vmdrcLocal "$newLine \"$path\""
 	        } elseif {[regexp "XXversionXX" $line] == 1} {
 				regexp {(.*.) XXversionXX} $line -> newLine
 				puts $vmdrcLocal "$newLine $onlineVersion"
