@@ -38,7 +38,8 @@ namespace eval vmdStore:: {
 		variable askDir				".vmdStoreAskDir"
         
         #Read External Package
-        variable server				"http://www.compbiochem.org/Software/vmdStore"
+        variable readmePath			"https://raw.githubusercontent.com/portobiocomp/vmdStore/master/README.md"
+		variable server				"http://www.compbiochem.org/Software/vmdStore"
 		variable externalPackage    "$::vmdStorePath/temp/repository"
 		variable installLink		""
 		variable webPageLink		""
@@ -65,6 +66,9 @@ namespace eval vmdStore:: {
 proc vmdStore::start {} {
 	#### Open loading GUI
 	vmdStore::loadingGui
+
+	#### Enabling SSL protocol
+	::http::register https 443 ::tls::socket
 
 
 	#### Save a backup of vmdrc
@@ -102,7 +106,6 @@ proc vmdStore::start {} {
 	
 	# Getting the online Version of vmdStore
 	set url "https://github.com/portobiocomp/vmdStore/releases/latest"
-	::http::register https 443 ::tls::socket
 	set token [::http::geturl $url -timeout 30000]
 	set data [::http::data $token]
 	regexp -all {tag\/(\S+)\"} $data --> onlineVersion
@@ -203,14 +206,14 @@ proc vmdStore::start {} {
 	}
 
 
-	## Chech vmdStore update
+	#### Chech vmdStore update
 	destroy $::vmdStore::loadingGui
 	
-	#if {[winfo exists $::vmdStore::topGui]} {wm deiconify $::vmdStore::topGui ;return $::vmdStore::topGui}
+	if {[winfo exists $::vmdStore::topGui]} {wm deiconify $::vmdStore::topGui ;return $::vmdStore::topGui}
 	#### Open the GUI
-	#vmdStore::topGui
-	#update
-	#return $::vmdStore::topGui
+	vmdStore::topGui
+	update
+	return $::vmdStore::topGui
 
 }
 

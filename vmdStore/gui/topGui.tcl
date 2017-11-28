@@ -271,7 +271,6 @@ proc vmdStore::topGui {} {
 
 
     #### Read package information 
-    vmdStore::readExternalPackage $vmdStore::externalPackage
-    
+    vmdStore::readExternalPackage "$vmdStore::readmePath"
 
 }

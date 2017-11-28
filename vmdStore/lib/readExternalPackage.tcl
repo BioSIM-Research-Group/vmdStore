@@ -1,26 +1,40 @@
 package provide vmdStoreReadExternalPackage 0.1
 
 proc vmdStore::readExternalPackage {path} {
-    ## Delete all information loaded on the tree
-    $vmdStore::topGui.frame1.left.f0.tree delete [ $vmdStore::topGui.frame1.left.f0.tree  children {}]
-
-
-    ## Get list of categories
-    set categories [glob -nocomplain -tails -directory $path *]
+    set token [::http::geturl "$path" -timeout 30000]
+    set data [split [::http::data $token] "\n"]
+    
+    set ignore "yes"
+    set fillList {}
+    set categoryList {}
+    set category ""
+    foreach line $data {
+        if {ignore == "no"} {
+            if {[string first "###" $line] != -1} {
+                set category [lrange $line 1 end]
+                lappend categoryList $category
+            }
+            if {[string first "-" $line] != -1} {
+                set plugin [lindex $line 1]
+                set a [list $category $plugin]
+                lappend fillList $a
+            }
+        }
+        if {$line == "## Available Plugins"} {
+            set ignore "no"
+        }
+    }
 
     set i 0
     ## Fill the tree with the categories
-    foreach category [lsort -dictionary -increasing -nocase $categories] {
+    foreach category [lsort -dictionary -increasing -nocase $categoryList] {
         $vmdStore::topGui.frame1.left.f0.tree insert "" end -id $i -text $category
-        set plugins [glob -nocomplain -tails -directory "$path/$category" *]
+        set plugins [lsearch -all -index 0 $fillList $category]
         foreach plugin $plugins {
             $vmdStore::topGui.frame1.left.f0.tree insert $i end -text $plugin
         }
-
         incr i
     }
-
-
 
 }
 
