@@ -13,7 +13,7 @@ proc vmdStore::topGui {} {
 	set sHeight [expr [winfo vrootheight $::vmdStore::topGui] -100]
 
     #### Window Size and Position
-	wm geometry $::vmdStore::topGui 800x600+[expr $sWidth / 2 - 800 / 2]+[expr $sHeight / 2 - 600 / 2]
+	wm geometry $::vmdStore::topGui 1000x700+[expr $sWidth / 2 - 1000 / 2]+[expr $sHeight / 2 - 700 / 2]
 	$::vmdStore::topGui configure -background {white}
 
 	## Procedure when the window is closed

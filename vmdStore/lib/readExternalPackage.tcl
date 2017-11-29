@@ -66,59 +66,28 @@ proc vmdStore::fillData {category plugin} {
     vmdStore::colorSearchPattern $vmdStore::topGui.frame1.right.f1.description $vmdStore::searchBar
     $vmdStore::topGui.frame1.right.f1.description configure -state disabled
 
-    ## Get Images
-    variable pluginImages
-
-    set number [array size vmdStore::pluginImages]
-    for {set index 0} { $index < $number } { incr index } {
-        destroy $vmdStore::topGui.frame1.right.f2.image$index
-    }
-    array unset vmdStore::pluginImages
-    array set vmdStore::pluginImages [vmdStore::loadImages "$dir/$category/$plugin/images" *.gif]
-
-    set i 0
-    set xPos 0
-    
-    ## Clean Image Gallery
-    $vmdStore::topGui.frame1.right.f2.canvas delete all
-
-    foreach {index image} [array get vmdStore::pluginImages] {
-        set imageHeight [image height $image]
-        set scale [format %.0f [expr ($imageHeight / 190) + 1]]
-        set newImage [image create photo]
-        set imageWidth [image width $image]
-        $newImage copy $image -subsample $scale $scale
-        #grid [ttk::label $vmdStore::topGui.frame1.right.f2.canvas.image$i \
-            -image $newImage \
-            ] -in $vmdStore::topGui.frame1.right.f2.canvas -row 0 -column $i -padx 5 -pady 5
-
-        set xPos [expr $xPos + 10 + ($imageWidth / $scale / 2)]
-
-        $vmdStore::topGui.frame1.right.f2.canvas create image $xPos 100 -image $newImage -tags [list image$i]
-        $vmdStore::topGui.frame1.right.f2.canvas bind image$i <Button-1> "vmdStore::zoomImage $image $i"
-        
-        set xPos [expr $xPos + ($imageWidth / $scale / 2)]
-        
-        incr i
-
-        #bind $vmdStore::topGui.frame1.right.f2.image[subst $i] <Button-1> {
-        #}
-    }
-
-    $vmdStore::topGui.frame1.right.f2.canvas configure -scrollregion [list 0 0 [expr $xPos + 10] 100]
-
 
     ## Footer Buttons
-    set path "$dir/$category/$plugin/link.txt"
-    set file [open $path r]
-    set link [split [read $file] "\n"]
-    close $file
+    set vmdStore::installLink   "https://github.com/portobiocomp/$plugin/releases/latest"
+    set vmdStore::webPageLink	"https://github.com/portobiocomp/$plugin"
 
-    set vmdStore::installLink   [lindex $link 0]
-    set vmdStore::webPageLink	[lindex $link 1]
-    set vmdStore::citationLink  [lindex $link 2]
-    set vmdStore::citationText  [lindex $link 3]
-    set vmdStore::pluginVersion [lindex $link 4]
+    set vmdStore::citationText ""
+    set vmdStore::citationLink ""
+    set i 0
+    set text [split $description "\n"]
+    foreach line $text {
+        if {[string first "Citation" $line] != -1} {
+            set vmdStore::citationText  "[lindex $text [expr $i + 1]]"
+        } elseif {[string first "DOI" $line] != -1} {
+            set vmdStore::citationLink  "[lindex $text [expr $i + 1]]"
+        }
+        incr i
+    }
+
+    set url "https://github.com/portobiocomp/$plugin/releases/latest"
+	set token [::http::geturl $url -timeout 30000]
+	set data [::http::data $token]
+	regexp -all {tag\/(\S+)\"} $data --> vmdStore::pluginVersion
 
     $vmdStore::topGui.frame1.right.f4.citationText configure -state normal
     $vmdStore::topGui.frame1.right.f4.citationText delete 1.0 end
@@ -156,6 +125,49 @@ proc vmdStore::fillData {category plugin} {
     }
 
 
+
+    ## Get Images
+    variable gallery {}
+    puts "Loading image gallery..."
+    foreach line [split $description "\n"] {
+        if {[string first "!" $line] != -1} {
+            regexp {\((\S+)\)} $line --> imagePath
+            set token [::http::geturl "https://raw.githubusercontent.com/portobiocomp/$plugin/master/$imagePath" -timeout 30000]
+            set image [::http::data $token]
+            set image [image create photo -data $image]
+            lappend vmdStore::gallery $image
+        }
+    }
+    puts "Done!"
+
+
+    ## Clean Image Gallery
+    $vmdStore::topGui.frame1.right.f2.canvas delete all
+
+    set i 0
+    set xPos 0
+    foreach image $vmdStore::gallery {
+        set imageHeight [image height $image]
+        set scale [format %.0f [expr ($imageHeight / 190) + 1]]
+        set newImage [image create photo]
+        set imageWidth [image width $image]
+        $newImage copy $image -subsample $scale $scale
+
+        set xPos [expr $xPos + 10 + ($imageWidth / $scale / 2)]
+
+        $vmdStore::topGui.frame1.right.f2.canvas create image $xPos 100 -image $newImage -tags [list image$i]
+        $vmdStore::topGui.frame1.right.f2.canvas bind image$i <Button-1> "vmdStore::zoomImage $image $i"
+        
+        set xPos [expr $xPos + ($imageWidth / $scale / 2)]
+        
+        incr i
+    }
+
+    $vmdStore::topGui.frame1.right.f2.canvas configure -scrollregion [list 0 0 [expr $xPos + 10] 100]
+
+
+
+
 }
 
 proc vmdStore::zoomImage {image imageIndex} {
@@ -165,6 +177,7 @@ proc vmdStore::zoomImage {image imageIndex} {
 
 	#### Title of the windows
 	wm title $::vmdStore::topGui.imagePopUp "vmdStore - Image Gallery" ;
+
 
     #### Set the size of the Window
     set sWidth [expr [winfo vrootwidth  $::vmdStore::topGui] - 200]
@@ -180,12 +193,9 @@ proc vmdStore::zoomImage {image imageIndex} {
         -anchor center \
         ] -in $::vmdStore::topGui.imagePopUp -row 0 -column 0 -sticky news -columnspan 3
 
-    set imageList {}
-    foreach {index image} [array get vmdStore::pluginImages] {
-        lappend imageList $image
-    }
-
-    set number [array size vmdStore::pluginImages]
+    set number [llength $vmdStore::gallery]
+    
+    set imageList $vmdStore::gallery
     
     if {$imageIndex == 0} {
         set previous [lindex $imageList 0]
