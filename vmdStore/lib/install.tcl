@@ -74,19 +74,6 @@ proc vmdStore::installPlugin {plugin} {
 		set printOrNot 1
 	    set printOrNotA 0
 	    set i 0
-	    foreach line [split $vmdrcFileContent "\n"] {
-	        if {[regexp "none" $line] == 1} {
-	            tk_messageBox -title "VMD Store" -icon warning -message "$plugin require some configurations." -detail "[string range [lindex [split $vmdrcFileContent "\n"] [expr $i - 1]] 1 end]"
-                set path [tk_chooseDirectory]
-	            regexp {(.*.) none} $line -> newLine
-	            puts $vmdrcLocal "$newLine \"$path\""
-	        } elseif {[regexp "XXversionXX" $line] == 1} {
-				regexp {(.*.) XXversionXX} $line -> newLine
-				puts $vmdrcLocal "$newLine $onlineVersion"
-			} else {
-	            puts $vmdrcLocal $line
-	        }
-	    }
 
 	    foreach line $vmdrcLocalContent {
 	        if {[regexp $initDelimiter $line] == 1} {
@@ -106,6 +93,19 @@ proc vmdStore::installPlugin {plugin} {
 	        incr i
 	    }
 	
+	    foreach line [split $vmdrcFileContent "\n"] {
+	        if {[regexp "none" $line] == 1} {
+	            tk_messageBox -title "VMD Store" -icon warning -message "$plugin require some configurations." -detail "[string range [lindex [split $vmdrcFileContent "\n"] [expr $i - 1]] 1 end]"
+                set path [tk_chooseDirectory]
+	            regexp {(.*.) none} $line -> newLine
+	            puts $vmdrcLocal "$newLine \"$path\""
+	        } elseif {[regexp "XXversionXX" $line] == 1} {
+				regexp {(.*.) XXversionXX} $line -> newLine
+				puts $vmdrcLocal "$newLine $onlineVersion"
+			} else {
+	            puts $vmdrcLocal $line
+	        }
+	    }
 
 	    close $vmdrcLocal
 
