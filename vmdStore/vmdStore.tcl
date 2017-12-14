@@ -130,7 +130,7 @@ proc vmdStore::start {} {
 		close $outputFile	
 
 		if {[string first "Windows" $::tcl_platform(os)] != -1} {
-			
+			exec "$::vmdStorePath/lib/zip/unzip.exe" -q -o "$::vmdStorePath/temp/plugin.zip" -d "$::vmdStorePath/temp"
 		} else {
 			exec unzip -q -o "$::vmdStorePath/temp/plugin.zip" -d "$::vmdStorePath/temp"
 		}
