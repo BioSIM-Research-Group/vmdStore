@@ -120,8 +120,16 @@ proc vmdStore::uninstallPlugin {plugin} {
     $vmdStore::topGui.frame1.right.f3.install  configure -text "Install" -style vmdStore.greenBg.TButton
     $vmdStore::topGui.frame1.right.f3.uninstall  configure -state disabled
     
+    #### Save a backup of vmdrc
+	if {[string first "Windows" $::tcl_platform(os)] != -1} {
+		catch {file copy -force "$env(HOME)/vmd.rc" "$env(HOME)/vmd.rc.bak.vmdStore"}
+	} else {
+		catch {file copy -force ~/.vmdrc ~/.vmdrc.bak.vmdStore}
+	}
+
+
     if {[string first "Windows" $::tcl_platform(os)] != -1} {
-		set vmdrcPath "./vmd.rc"
+		set vmdrcPath "$env(HOME)/vmd.rc"
 	} else {
 		set vmdrcPath "~/.vmdrc"
 	}
@@ -130,7 +138,7 @@ proc vmdStore::uninstallPlugin {plugin} {
     set vmdrcLocalContent [split [read $vmdrcLocal] "\n"]
     close $vmdrcLocal
 
-    file delete -force "$vmdStore::server/plugins/$plugin"
+    file delete -force "$::vmdStorePath/plugins/$plugin"
 
     file delete -force $vmdrcPath
     set vmdrcLocal [open $vmdrcPath w]
