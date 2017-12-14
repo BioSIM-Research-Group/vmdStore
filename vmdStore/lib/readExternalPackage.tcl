@@ -120,7 +120,7 @@ proc vmdStore::fillData {category plugin} {
     $vmdStore::topGui.frame1.right.f3.install  configure -state normal -style vmdStore.greenBg.TButton
 
     ### Check if the plugin is already installed
-    set alreadyInstalled [lsearch -index 0 $::vmdStore::installedPlugins $vmdStore::installLink]
+    set alreadyInstalled [lsearch -index 0 $::vmdStore::installedPlugins $plugin]
     if {$alreadyInstalled == -1} {
         $vmdStore::topGui.frame1.right.f3.install  configure -text "Install" -style vmdStore.greenBg.TButton
         $vmdStore::topGui.frame1.right.f3.uninstall  configure -state disabled
