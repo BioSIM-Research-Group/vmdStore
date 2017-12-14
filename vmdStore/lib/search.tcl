@@ -14,10 +14,7 @@ proc vmdStore::search {textSearch treeView} {
             foreach plugin $plugins {
                 #Open File
                 set pluginA [$treeView item $plugin -text]
-                set path "$vmdStore::externalPackage/$category/$pluginA/description.txt"
-                set file [open $path r]
-                set description [read $file]
-                close $file
+                set description [lindex [lsearch -index 0 -inline $vmdStore::pluginDescriptions "$pluginA"] 1]
 
                 #Search
                 $treeView item $parent -tag ""

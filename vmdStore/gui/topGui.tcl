@@ -218,27 +218,36 @@ proc vmdStore::topGui {} {
         -style vmdStore.uninstall.TButton \
         ] -in $f1.right.f3 -row 0 -column 0 -sticky w -pady 5 -padx 10
     
+    grid [ttk::progressbar $f1.right.f3.progressBar \
+        -orient horizontal \
+        -phase 1 \
+        -mode indeterminate \
+        ] -in $f1.right.f3 -row 0 -column 1 -sticky news -pady 5 -padx 10
+
+    grid [ttk::label $f1.right.f3.progressLabel \
+        -text ""
+        ] -in $f1.right.f3 -row 0 -column 2 -sticky news -pady 5 -padx 10
     
     grid [ttk::button $f1.right.f3.citation \
         -text "Citation" \
         -command {vmdStore::browser $vmdStore::citationLink} \
         -state disabled \
         -style vmdStore.blueBg.TButton \
-        ] -in $f1.right.f3 -row 0 -column 2 -sticky e -pady 5 -padx 10
+        ] -in $f1.right.f3 -row 0 -column 3 -sticky e -pady 5 -padx 10
     
     grid [ttk::button $f1.right.f3.webPage \
         -text "Web Page" \
         -command {vmdStore::browser $vmdStore::webPageLink} \
         -state disabled \
         -style vmdStore.blueBg.TButton \
-        ] -in $f1.right.f3 -row 0 -column 4 -sticky e -pady 5 -padx 10
+        ] -in $f1.right.f3 -row 0 -column 5 -sticky e -pady 5 -padx 10
     
     grid [ttk::button $f1.right.f3.install \
         -text "Install" \
         -command {vmdStore::installPlugin $vmdStore::installLink} \
         -state disabled \
         -style vmdStore.greenBg.TButton \
-        ] -in $f1.right.f3 -row 0 -column 5 -sticky e -pady 5 -padx 10
+        ] -in $f1.right.f3 -row 0 -column 6 -sticky e -pady 5 -padx 10
 
 
     grid columnconfigure $f1.right.f1        0   -weight 1
@@ -247,7 +256,8 @@ proc vmdStore::topGui {} {
     grid columnconfigure $f1.left        0   -weight 1
     grid columnconfigure $f1.left.f0        1   -weight 1
     grid columnconfigure $f1.right        0   -weight 1
-    grid columnconfigure $f1.right.f3        0   -weight 1
+    grid columnconfigure $f1.right.f3        1   -weight 1
+    grid columnconfigure $f1.right.f3        2   -weight 1
     grid rowconfigure $f0           0   -weight 0
     #grid rowconfigure $f1.right.f3     0   -weight 1
     grid rowconfigure $f1.left        0   -weight 1

@@ -52,11 +52,21 @@ proc vmdStore::readExternalPackage {path} {
 
 
 proc vmdStore::fillData {category plugin} {
+    ## Disable Lateral Pannel while the information is collected from the server
+    $vmdStore::topGui.frame1.left.f0.tree configure -selectmode none
+    $vmdStore::topGui.frame1.right.f3.progressBar start 10
+    $vmdStore::topGui.frame1.right.f3.progressLabel configure -text "Loading..."
+    $vmdStore::topGui.frame0.h1.searchBarEntry configure -state disabled
+    $vmdStore::topGui.frame0.h1.searchButton configure -state disabled
+
+
     set token [::http::geturl "https://raw.githubusercontent.com/portobiocomp/$plugin/master/README.md" -timeout 30000]
     set description [::http::data $token]
     
     ## Title
     $vmdStore::topGui.frame1.right.f0.pluginTitle configure -text $plugin
+
+    $vmdStore::topGui.frame1.right.f3.progressLabel configure -text "Loading text..."
 
     ## Description
     $vmdStore::topGui.frame1.right.f1.description configure -state normal
@@ -124,7 +134,7 @@ proc vmdStore::fillData {category plugin} {
         }
     }
 
-
+    $vmdStore::topGui.frame1.right.f3.progressLabel configure -text "Loading images..."
 
     ## Get Images
     variable gallery {}
@@ -138,7 +148,6 @@ proc vmdStore::fillData {category plugin} {
             lappend vmdStore::gallery $image
         }
     }
-    puts "Done!"
 
 
     ## Clean Image Gallery
@@ -163,10 +172,17 @@ proc vmdStore::fillData {category plugin} {
         incr i
     }
 
+    $vmdStore::topGui.frame1.right.f3.progressLabel configure -text "Done!"
+
     $vmdStore::topGui.frame1.right.f2.canvas configure -scrollregion [list 0 0 [expr $xPos + 10] 100]
 
 
-
+    ## Re-Enabled Lateral Pannel
+    $vmdStore::topGui.frame1.left.f0.tree configure -selectmode browse
+    $vmdStore::topGui.frame1.right.f3.progressBar stop
+    $vmdStore::topGui.frame1.right.f3.progressLabel configure -text ""
+    $vmdStore::topGui.frame0.h1.searchBarEntry configure -state normal
+    $vmdStore::topGui.frame0.h1.searchButton configure -state normal
 
 }
 
