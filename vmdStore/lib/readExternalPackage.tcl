@@ -78,7 +78,7 @@ proc vmdStore::fillData {category plugin} {
 
 
     ## Footer Buttons
-    set vmdStore::installLink   "https://github.com/portobiocomp/$plugin/releases/latest"
+    set vmdStore::installLink   "$plugin"
     set vmdStore::webPageLink	"https://github.com/portobiocomp/$plugin"
 
     set vmdStore::citationText ""
