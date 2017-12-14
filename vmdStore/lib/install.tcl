@@ -41,6 +41,7 @@ proc vmdStore::installPlugin {plugin} {
 	}
 
     # Copy Files
+    file delete -force "$::vmdStorePath/plugins/$plugin"
 	vmdStoreCopyFiles "$::vmdStorePath/temp/$plugin-$onlineVersion/$plugin" "$::vmdStorePath/plugins/$plugin"
 
 
