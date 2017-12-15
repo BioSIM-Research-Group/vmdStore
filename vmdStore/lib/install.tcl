@@ -27,17 +27,19 @@ proc vmdStore::installPlugin {plugin} {
     set url "https://github.com/portobiocomp/$plugin/archive/$onlineVersion.zip"
 	set token [::http::geturl $url -timeout 30000]
 	set data [::http::data $token]
+	::http::cleanup $token
 	regexp -all {href=\"(\S+)\"} $data --> url
 	puts "Downloading the plugin from: $url"
 	set outputFile  [open "$::vmdStorePath/temp/plugin.zip" w]
-	set token [::http::geturl $url -channel $outputFile -timeout 1800000 -progress vmdStoreDownlodProgress]
+	set token [::http::geturl $url -channel $outputFile -progress vmdStoreDownlodProgress]
     close $outputFile
+	::http::cleanup $token
 
     # Extracting the plugin
     if {[string first "Windows" $::tcl_platform(os)] != -1} {
 		exec "$::vmdStorePath/lib/zip/unzip.exe" -q -o "$::vmdStorePath/temp/plugin.zip" -d "$::vmdStorePath/temp"
 	} else {
-		exec unzip -f -q -o "$::vmdStorePath/temp/plugin.zip" -d "$::vmdStorePath/temp"
+		exec unzip -q -o "$::vmdStorePath/temp/plugin.zip" -d "$::vmdStorePath/temp"
 	}
 
     # Copy Files
