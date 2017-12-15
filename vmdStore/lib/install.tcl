@@ -37,7 +37,7 @@ proc vmdStore::installPlugin {plugin} {
     if {[string first "Windows" $::tcl_platform(os)] != -1} {
 		exec "$::vmdStorePath/lib/zip/unzip.exe" -q -o "$::vmdStorePath/temp/plugin.zip" -d "$::vmdStorePath/temp"
 	} else {
-		exec unzip -q -o "$::vmdStorePath/temp/plugin.zip" -d "$::vmdStorePath/temp"
+		exec unzip -f -q -o "$::vmdStorePath/temp/plugin.zip" -d "$::vmdStorePath/temp"
 	}
 
     # Copy Files
