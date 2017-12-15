@@ -12,4 +12,4 @@ vmdStore provides a user-friendly interface to free install VMD plugins. vmdStor
  - toolBar
  - selectionManager
  - chemPathTracker
- - volArea
+ - volArea (https://github.com/portobiocomp/volArea)
