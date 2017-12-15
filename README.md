@@ -16,3 +16,6 @@ vmdStore provides a user-friendly interface to free install VMD plugins. vmdStor
  - selectionManager
  - chemPathTracker (https://github.com/portobiocomp/chemPathTracker)
  - volArea (https://github.com/portobiocomp/volArea)
+
+### Molecular Docking
+ - vsLab (https://github.com/portobiocomp/vsLab)
