@@ -3,8 +3,8 @@ vmdStore provides a user-friendly interface to free install VMD plugins. vmdStor
 
 ## Available Plugins
 ### Education
- - vmdMagazine
- - vmdTutor
+ - vmdMagazine (https://github.com/portobiocomp/vmdMagazine)
+ 
 ### QM/MM
  - molUP (https://github.com/portobiocomp/molUP)
  
@@ -13,6 +13,3 @@ vmdStore provides a user-friendly interface to free install VMD plugins. vmdStor
  - selectionManager
  - chemPathTracker
  - volArea
-
-### Games
- - proteinWars
