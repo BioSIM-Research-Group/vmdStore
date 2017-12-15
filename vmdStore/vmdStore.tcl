@@ -125,6 +125,7 @@ proc vmdStore::start {} {
 		puts "Downloading the update from: $url"
 		set outputFile  [open "$::vmdStorePath/temp/plugin.zip" w]
 		set token [::http::geturl $url -channel $outputFile -timeout 1800000 -progress vmdStoreDownlodProgress]
+		::http::wait $token
 		#array set meta $:token(meta)
 		#set fileSize $meta(Content-Length)
 		close $outputFile	

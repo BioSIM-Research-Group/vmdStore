@@ -31,6 +31,7 @@ proc vmdStore::installPlugin {plugin} {
 	puts "Downloading the plugin from: $url"
 	set outputFile  [open "$::vmdStorePath/temp/plugin.zip" w]
 	set token [::http::geturl $url -channel $outputFile -timeout 1800000 -progress vmdStoreDownlodProgress]
+	::http::wait $token
     close $outputFile
 
     # Extracting the plugin
@@ -108,6 +109,11 @@ proc vmdStore::installPlugin {plugin} {
 	    }
 
 	    close $vmdrcLocal
+
+
+	# Cleaning the temp directory
+    catch {file delete -force "$::vmdStorePath/temp"}
+	file mkdir "$::vmdStorePath/temp"
 
 
     destroy $::vmdStore::installing
