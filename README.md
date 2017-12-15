@@ -7,13 +7,14 @@ vmdStore provides a user-friendly interface to free install VMD plugins. vmdStor
 
 ### Education
  - vmdMagazine (https://github.com/portobiocomp/vmdMagazine)
+ - vmdTutor (https://github.com/portobiocomp/vmdTutor)
  
 ### QM/MM
  - molUP (https://github.com/portobiocomp/molUP)
  
 ### Tools
- - toolBar
- - selectionManager
+ - toolBar (https://github.com/portobiocomp/toolBar)
+ - selectionManager (https://github.com/portobiocomp/selectionManager)
  - chemPathTracker (https://github.com/portobiocomp/chemPathTracker)
  - volArea (https://github.com/portobiocomp/volArea)
 
