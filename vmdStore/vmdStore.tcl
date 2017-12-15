@@ -124,10 +124,15 @@ proc vmdStore::start {} {
 		regexp -all {href=\"(\S+)\"} $data --> url
 		puts "Downloading the update from: $url"
 		set outputFile  [open "$::vmdStorePath/temp/plugin.zip" w]
-		set token [::http::geturl $url -channel $outputFile -timeout 1800000 -progress vmdStoreDownlodProgress]
-		#array set meta $:token(meta)
-		#set fileSize $meta(Content-Length)
+		set token [::http::geturl $url -channel $outputFile -binary true -timeout 1800000 -progress vmdStoreDownlodProgress -method GET]
 		close $outputFile	
+
+		while {$vmdStore::successfullDownload == 0} {
+			file delete -force "$::vmdStorePath/temp/plugin.zip"
+			set outputFile  [open "$::vmdStorePath/temp/plugin.zip" wb]
+			set token [::http::geturl $url -channel $outputFile -binary true -timeout 1800000 -progress vmdStoreDownlodProgress -method GET]
+    		close $outputFile
+		}
 
 		if {[string first "Windows" $::tcl_platform(os)] != -1} {
 			exec "$::vmdStorePath/lib/zip/unzip.exe" -q -o "$::vmdStorePath/temp/plugin.zip" -d "$::vmdStorePath/temp"
