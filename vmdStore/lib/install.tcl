@@ -31,13 +31,14 @@ proc vmdStore::installPlugin {plugin} {
 	puts "Downloading the plugin from: $url"
 	set outputFile  [open "$::vmdStorePath/temp/plugin.zip" w]
 	set token [::http::geturl $url -channel $outputFile -timeout 1800000 -progress vmdStoreDownlodProgress]
+	puts "Download complete. [::http::size $token] Bytes"
     close $outputFile
 
     # Extracting the plugin
     if {[string first "Windows" $::tcl_platform(os)] != -1} {
-		exec "$::vmdStorePath/lib/zip/unzip.exe" -q -o "$::vmdStorePath/temp/plugin.zip" -d "$::vmdStorePath/temp"
+		catch {exec "$::vmdStorePath/lib/zip/unzip.exe" -q -o "$::vmdStorePath/temp/plugin.zip" -d "$::vmdStorePath/temp"} error
 	} else {
-		exec unzip -q -o "$::vmdStorePath/temp/plugin.zip" -d "$::vmdStorePath/temp"
+		catch {exec unzip -q -o "$::vmdStorePath/temp/plugin.zip" -d "$::vmdStorePath/temp"} error
 	}
 
     # Copy Files
@@ -92,10 +93,19 @@ proc vmdStore::installPlugin {plugin} {
 
 	        incr i
 	    }
-	
+
+		set i 0
 	    foreach line [split $vmdrcFileContent "\n"] {
-	        if {[regexp "none" $line] == 1} {
-	            tk_messageBox -title "VMD Store" -icon warning -message "$plugin require some configurations." -detail "[string range [lindex [split $vmdrcFileContent "\n"] [expr $i - 1]] 1 end]"
+	        if {[regexp "askFile" $line] == 1} {
+				set types {
+					{{All Files}        *             }
+				}
+				tk_messageBox -title "VMD Store" -icon warning -message "$plugin require some configurations.\n\n[string range [lindex [split $vmdrcFileContent "\n"] [expr $i - 1]] 1 end]"
+                set path [tk_getOpenFile -filetypes $types]
+	            regexp {(.*.) askFile} $line -> newLine
+	            puts $vmdrcLocal "$newLine \"$path\""
+			} elseif {[regexp "none" $line] == 1} {
+	            tk_messageBox -title "VMD Store" -icon warning -message "$plugin require some configurations.\n\n[string range [lindex [split $vmdrcFileContent "\n"] [expr $i - 1]] 1 end]"
                 set path [tk_chooseDirectory]
 	            regexp {(.*.) none} $line -> newLine
 	            puts $vmdrcLocal "$newLine \"$path\""
@@ -105,6 +115,7 @@ proc vmdStore::installPlugin {plugin} {
 			} else {
 	            puts $vmdrcLocal $line
 	        }
+			incr i
 	    }
 
 	    close $vmdrcLocal
