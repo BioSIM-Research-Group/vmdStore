@@ -218,6 +218,9 @@ proc vmdStore::start {} {
 }
 
 proc vmdStoreDownlodProgress {token total current} {
+	if {$total != 0} {
+		set vmdStore::successfullDownload 1
+	}
 	set units "Bytes"
 	if {$total > 1024} {
 		set current [format %.2f [expr $current / 1024]]

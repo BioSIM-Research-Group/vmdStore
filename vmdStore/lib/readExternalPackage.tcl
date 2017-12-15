@@ -58,6 +58,10 @@ proc vmdStore::fillData {category plugin} {
     $vmdStore::topGui.frame1.right.f3.progressLabel configure -text "Loading..."
     $vmdStore::topGui.frame0.h1.searchBarEntry configure -state disabled
     $vmdStore::topGui.frame0.h1.searchButton configure -state disabled
+    $vmdStore::topGui.frame1.right.f3.uninstall  configure -state disabled
+    $vmdStore::topGui.frame1.right.f3.install  configure -state disabled
+    $vmdStore::topGui.frame1.right.f3.citation  configure -state disabled
+    $vmdStore::topGui.frame1.right.f3.webPage  configure -state disabled
 
 
     set token [::http::geturl "https://raw.githubusercontent.com/portobiocomp/$plugin/master/README.md" -timeout 30000]
@@ -106,18 +110,7 @@ proc vmdStore::fillData {category plugin} {
 
     $vmdStore::topGui.frame1.right.f0.version configure -text "Version: $vmdStore::pluginVersion"
 
-    if {$vmdStore::citationLink != ""} {
-        $vmdStore::topGui.frame1.right.f3.citation  configure -state normal
-    } else {
-        $vmdStore::topGui.frame1.right.f3.citation  configure -state disabled
-    }
-    if {$vmdStore::webPageLink != ""} {
-        $vmdStore::topGui.frame1.right.f3.webPage   configure -state normal
-    } else {
-        $vmdStore::topGui.frame1.right.f3.webPage   configure -state disabled
-    }
-   
-    $vmdStore::topGui.frame1.right.f3.install  configure -state normal -style vmdStore.greenBg.TButton
+    
 
     
 
@@ -176,6 +169,20 @@ proc vmdStore::fillData {category plugin} {
             $vmdStore::topGui.frame1.right.f3.uninstall  configure -state normal
         }
     }
+
+
+    if {$vmdStore::citationLink != ""} {
+        $vmdStore::topGui.frame1.right.f3.citation  configure -state normal
+    } else {
+        $vmdStore::topGui.frame1.right.f3.citation  configure -state disabled
+    }
+    if {$vmdStore::webPageLink != ""} {
+        $vmdStore::topGui.frame1.right.f3.webPage   configure -state normal
+    } else {
+        $vmdStore::topGui.frame1.right.f3.webPage   configure -state disabled
+    }
+   
+    $vmdStore::topGui.frame1.right.f3.install  configure -state normal -style vmdStore.greenBg.TButton
 
 
     ## Re-Enabled Lateral Pannel

@@ -1,6 +1,10 @@
 package provide vmdStoreInstallPlugins 0.1
 
 proc vmdStore::installPlugin {plugin} {
+	## Disable the install button
+	$vmdStore::topGui.frame1.right.f3.install  configure -state disabled
+	$vmdStore::topGui.frame1.right.f3.uninstall  configure -state disabled
+
     vmdStore::installGui $plugin
 
     #### Save a backup of vmdrc
@@ -29,16 +33,23 @@ proc vmdStore::installPlugin {plugin} {
 	set data [::http::data $token]
 	regexp -all {href=\"(\S+)\"} $data --> url
 	puts "Downloading the plugin from: $url"
-	set outputFile  [open "$::vmdStorePath/temp/plugin.zip" w]
-	set token [::http::geturl $url -channel $outputFile -timeout 1800000 -progress vmdStoreDownlodProgress]
-	puts "Download complete. [::http::size $token] Bytes"
+	variable successfullDownload 0
+	set outputFile  [open "$::vmdStorePath/temp/plugin.zip" wb]
+	set token [::http::geturl $url -channel $outputFile -binary true -timeout 1800000 -progress vmdStoreDownlodProgress -method GET]
     close $outputFile
+
+	while {$vmdStore::successfullDownload == 0} {
+		file delete -force "$::vmdStorePath/temp/plugin.zip"
+		set outputFile  [open "$::vmdStorePath/temp/plugin.zip" wb]
+		set token [::http::geturl $url -channel $outputFile -binary true -timeout 1800000 -progress vmdStoreDownlodProgress -method GET]
+    	close $outputFile
+	}
 
     # Extracting the plugin
     if {[string first "Windows" $::tcl_platform(os)] != -1} {
-		catch {exec "$::vmdStorePath/lib/zip/unzip.exe" -q -o "$::vmdStorePath/temp/plugin.zip" -d "$::vmdStorePath/temp"} error
+		exec "$::vmdStorePath/lib/zip/unzip.exe" -q -o "$::vmdStorePath/temp/plugin.zip" -d "$::vmdStorePath/temp"
 	} else {
-		catch {exec unzip -q -o "$::vmdStorePath/temp/plugin.zip" -d "$::vmdStorePath/temp"} error
+		exec unzip -q -o "$::vmdStorePath/temp/plugin.zip" -d "$::vmdStorePath/temp"
 	}
 
     # Copy Files
@@ -128,6 +139,10 @@ proc vmdStore::installPlugin {plugin} {
 
     destroy $::vmdStore::installing
     tk_messageBox -title "VMD Store" -icon info -message "$plugin was installed sucessfully!" -detail "Please, restart VMD to apply the new settings."
+
+	## Enabling the install button 
+	$vmdStore::topGui.frame1.right.f3.uninstall  configure -state normal
+	$vmdStore::topGui.frame1.right.f3.install  configure -state normal
 
 }
 
