@@ -119,26 +119,12 @@ proc vmdStore::fillData {category plugin} {
    
     $vmdStore::topGui.frame1.right.f3.install  configure -state normal -style vmdStore.greenBg.TButton
 
-    ### Check if the plugin is already installed
-    set alreadyInstalled [lsearch -index 0 $::vmdStore::installedPlugins $plugin]
-    if {$alreadyInstalled == -1} {
-        $vmdStore::topGui.frame1.right.f3.install  configure -text "Install" -style vmdStore.greenBg.TButton
-        $vmdStore::topGui.frame1.right.f3.uninstall  configure -state disabled
-    } else {
-        if {$vmdStore::pluginVersion == [lindex [lindex $::vmdStore::installedPlugins $alreadyInstalled] 1]} {
-            $vmdStore::topGui.frame1.right.f3.install  configure -text "Re-Install"
-            $vmdStore::topGui.frame1.right.f3.uninstall  configure -state normal
-        } else {
-            $vmdStore::topGui.frame1.right.f3.install  configure -text "Update" -style vmdStore.update.TButton
-            $vmdStore::topGui.frame1.right.f3.uninstall  configure -state normal
-        }
-    }
+    
 
     $vmdStore::topGui.frame1.right.f3.progressLabel configure -text "Loading images..."
 
     ## Get Images
     variable gallery {}
-    puts "Loading image gallery..."
     foreach line [split $description "\n"] {
         if {[string first "!" $line] != -1} {
             regexp {\((\S+)\)} $line --> imagePath
@@ -175,6 +161,21 @@ proc vmdStore::fillData {category plugin} {
     $vmdStore::topGui.frame1.right.f3.progressLabel configure -text "Done!"
 
     $vmdStore::topGui.frame1.right.f2.canvas configure -scrollregion [list 0 0 [expr $xPos + 10] 100]
+
+    ### Check if the plugin is already installed
+    set alreadyInstalled [lsearch -index 0 $::vmdStore::installedPlugins $plugin]
+    if {$alreadyInstalled == -1} {
+        $vmdStore::topGui.frame1.right.f3.install  configure -text "Install" -style vmdStore.greenBg.TButton
+        $vmdStore::topGui.frame1.right.f3.uninstall  configure -state disabled
+    } else {
+        if {$vmdStore::pluginVersion == [lindex [lindex $::vmdStore::installedPlugins $alreadyInstalled] 1]} {
+            $vmdStore::topGui.frame1.right.f3.install  configure -text "Re-Install"
+            $vmdStore::topGui.frame1.right.f3.uninstall  configure -state normal
+        } else {
+            $vmdStore::topGui.frame1.right.f3.install  configure -text "Update" -style vmdStore.update.TButton
+            $vmdStore::topGui.frame1.right.f3.uninstall  configure -state normal
+        }
+    }
 
 
     ## Re-Enabled Lateral Pannel
