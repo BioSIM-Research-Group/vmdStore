@@ -138,7 +138,7 @@ proc vmdStore::installPlugin {plugin} {
 
 
     destroy $::vmdStore::installing
-    tk_messageBox -title "VMD Store" -icon info -message "$plugin was installed sucessfully!" -detail "Please, restart VMD to apply the new settings."
+    tk_messageBox -title "VMD Store" -icon info -message "$plugin was installed sucessfully!" -detail "Please, restart VMD to apply the new settings.\n Restart VMD to use the $plugin plugin."
 
 	## Enabling the install button 
 	$vmdStore::topGui.frame1.right.f3.uninstall  configure -state normal
