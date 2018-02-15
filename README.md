@@ -7,7 +7,6 @@ vmdStore provides a user-friendly interface to free install VMD plugins. vmdStor
 
 ### Education
  - vmdMagazine (https://github.com/portobiocomp/vmdMagazine)
- - vmdTutor (https://github.com/portobiocomp/vmdTutor)
  
 ### QM/MM
  - molUP (https://github.com/portobiocomp/molUP)
