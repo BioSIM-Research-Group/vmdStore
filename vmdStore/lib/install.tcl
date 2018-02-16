@@ -9,7 +9,7 @@ proc vmdStore::installPlugin {plugin} {
 
     #### Save a backup of vmdrc
 	if {[string first "Windows" $::tcl_platform(os)] != -1} {
-		catch {file copy -force "$env(HOME)/vmd.rc" "$env(HOME)/vmd.rc.bak.vmdStore"}
+		catch {file copy -force "$vmdStore::home/vmd.rc" "$vmdStore::home/vmd.rc.bak.vmdStore"}
 	} else {
 		catch {file copy -force ~/.vmdrc ~/.vmdrc.bak.vmdStore}
 	}
@@ -63,7 +63,7 @@ proc vmdStore::installPlugin {plugin} {
     	set vmdrcFileContent [read $vmdrcFile]
     	close $vmdrcFile
 		if {[string first "Windows" $::tcl_platform(os)] != -1} {
-			set vmdrcPath "$env(HOME)/vmd.rc"
+			set vmdrcPath "$vmdStore::home/vmd.rc"
 		} else {
 			set vmdrcPath "~/.vmdrc"
 		}
@@ -138,7 +138,7 @@ proc vmdStore::installPlugin {plugin} {
 
 
     destroy $::vmdStore::installing
-    tk_messageBox -title "VMD Store" -icon info -message "$plugin was installed sucessfully!" -detail "Please, restart VMD to apply the new settings.\n Restart VMD to use the $plugin plugin."
+    tk_messageBox -title "VMD Store" -icon info -message "$plugin was installed sucessfully!" -detail "Please, restart VMD to apply the new settings."
 
 	## Enabling the install button 
 	$vmdStore::topGui.frame1.right.f3.uninstall  configure -state normal
@@ -153,14 +153,14 @@ proc vmdStore::uninstallPlugin {plugin} {
     
     #### Save a backup of vmdrc
 	if {[string first "Windows" $::tcl_platform(os)] != -1} {
-		catch {file copy -force "$env(HOME)/vmd.rc" "$env(HOME)/vmd.rc.bak.vmdStore"}
+		catch {file copy -force "$vmdStore::home/vmd.rc" "$vmdStore::home/vmd.rc.bak.vmdStore"}
 	} else {
 		catch {file copy -force ~/.vmdrc ~/.vmdrc.bak.vmdStore}
 	}
 
 
     if {[string first "Windows" $::tcl_platform(os)] != -1} {
-		set vmdrcPath "$env(HOME)/vmd.rc"
+		set vmdrcPath "$vmdStore::home/vmd.rc"
 	} else {
 		set vmdrcPath "~/.vmdrc"
 	}

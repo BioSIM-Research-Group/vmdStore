@@ -48,6 +48,7 @@ namespace eval vmdStore:: {
 		variable pluginVersion		""
 		variable installedPlugins	{}
 		variable installingProgress	5
+		variable home				$env(HOME)
 
 		#Markdown
 		variable markdown			[list \
@@ -73,7 +74,7 @@ proc vmdStore::start {} {
 
 	#### Save a backup of vmdrc
 	if {[string first "Windows" $::tcl_platform(os)] != -1} {
-		catch {file copy -force "$env(HOME)/vmd.rc" "$env(HOME)/vmd.rc.bak.vmdStore"}
+		catch {file copy -force "$vmdStore::home/vmd.rc" "$vmdStore::home/vmd.rc.bak.vmdStore"}
 	} else {
 		catch {file copy -force ~/.vmdrc ~/.vmdrc.bak.vmdStore}
 	}
@@ -81,7 +82,7 @@ proc vmdStore::start {} {
 
 	#### Read VMDRC to check the version of all installed plugins
 	if {[string first "Windows" $::tcl_platform(os)] != -1} {
-		set vmdrcPath "$env(HOME)/vmd.rc"
+		set vmdrcPath "$vmdStore::home/vmd.rc"
 	} else {
 		set vmdrcPath "~/.vmdrc"
 	}
@@ -123,6 +124,7 @@ proc vmdStore::start {} {
 		set data [::http::data $token]
 		regexp -all {href=\"(\S+)\"} $data --> url
 		puts "Downloading the update from: $url"
+		variable successfullDownload 0
 		set outputFile  [open "$::vmdStorePath/temp/plugin.zip" w]
 		set token [::http::geturl $url -channel $outputFile -binary true -timeout 1800000 -progress vmdStoreDownlodProgress -method GET]
 		close $outputFile	
@@ -137,7 +139,7 @@ proc vmdStore::start {} {
 		if {[string first "Windows" $::tcl_platform(os)] != -1} {
 			exec "$::vmdStorePath/lib/zip/unzip.exe" -q -o "$::vmdStorePath/temp/plugin.zip" -d "$::vmdStorePath/temp"
 		} else {
-			exec unzip -FFv -q -o "$::vmdStorePath/temp/plugin.zip" -d "$::vmdStorePath/temp"
+			exec unzip -q -o "$::vmdStorePath/temp/plugin.zip" -d "$::vmdStorePath/temp"
 		}
 
 		#Copy Files
@@ -148,7 +150,7 @@ proc vmdStore::start {} {
     	set vmdrcFileContent [read $vmdrcFile]
     	close $vmdrcFile
 		if {[string first "Windows" $::tcl_platform(os)] != -1} {
-			set vmdrcPath "$env(HOME)/vmd.rc"
+			set vmdrcPath "$vmdStore::home/vmd.rc"
 		} else {
 			set vmdrcPath "~/.vmdrc"
 		}
@@ -246,6 +248,7 @@ proc vmdStoreDownlodProgress {token total current} {
 }
 
 proc vmdStoreCopyFiles {origin destination} {
+	set error none
 	set list [glob -nocomplain -directory "$origin" *]
 	foreach item $list {
 		if {[file isdirectory $item] == 1} {
@@ -255,7 +258,10 @@ proc vmdStoreCopyFiles {origin destination} {
 			}
 			vmdStoreCopyFiles "$item" "$newDestination"
 		} else {
-			file copy -force "$item" "$destination"
+			catch {file copy -force "$item" "$destination"} debug
+			if {$debug != ""} {
+				tk_messageBox -title "VMD Store" -icon error -message "The file \"$item\" was not installed/updated. Please, try again or install/update it manually."
+			}
 		}
 	}
 }
