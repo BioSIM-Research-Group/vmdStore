@@ -1,3 +1,6 @@
+## VMD Store Plugin Manager ##
+## Please, do not change this file unless you know what are you doing! ##
+
 ####vmdStore#### START vmdStore
 ## Version XXversionXX
 variable vmdStorePath none

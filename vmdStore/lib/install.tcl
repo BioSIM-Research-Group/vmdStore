@@ -8,11 +8,7 @@ proc vmdStore::installPlugin {plugin} {
     vmdStore::installGui $plugin
 
     #### Save a backup of vmdrc
-	if {[string first "Windows" $::tcl_platform(os)] != -1} {
-		catch {file copy -force "$vmdStore::home/vmd.rc" "$vmdStore::home/vmd.rc.bak.vmdStore"}
-	} else {
-		catch {file copy -force ~/.vmdrc ~/.vmdrc.bak.vmdStore}
-	}
+	catch {file copy -force $::vmdStorePath/vmdStore.rc $::vmdStorePath/vmdStore.rc.bak}
 
     # Getting the local Version of the Plugin
 	set localVersion [lindex [lindex $vmdStore::installedPlugins [lsearch -index 0 $vmdStore::installedPlugins "$plugin"]] 1]
@@ -62,11 +58,7 @@ proc vmdStore::installPlugin {plugin} {
 		set vmdrcFile [open "$::vmdStorePath/temp/$plugin-$onlineVersion/install.txt" r]
     	set vmdrcFileContent [read $vmdrcFile]
     	close $vmdrcFile
-		if {[string first "Windows" $::tcl_platform(os)] != -1} {
-			set vmdrcPath "$vmdStore::home/vmd.rc"
-		} else {
-			set vmdrcPath "~/.vmdrc"
-		}
+		set vmdrcPath "$::vmdStorePath/vmdStore.rc"
 
 		foreach line [split $vmdrcFileContent "\n"] {
     	    if {[regexp "####vmdStore#### START" $line] == 1} {
@@ -152,18 +144,9 @@ proc vmdStore::uninstallPlugin {plugin} {
     $vmdStore::topGui.frame1.right.f3.uninstall  configure -state disabled
     
     #### Save a backup of vmdrc
-	if {[string first "Windows" $::tcl_platform(os)] != -1} {
-		catch {file copy -force "$vmdStore::home/vmd.rc" "$vmdStore::home/vmd.rc.bak.vmdStore"}
-	} else {
-		catch {file copy -force ~/.vmdrc ~/.vmdrc.bak.vmdStore}
-	}
+	catch {file copy -force $::vmdStorePath/vmdStore.rc $::vmdStorePath/vmdStore.rc.bak}
 
-
-    if {[string first "Windows" $::tcl_platform(os)] != -1} {
-		set vmdrcPath "$vmdStore::home/vmd.rc"
-	} else {
-		set vmdrcPath "~/.vmdrc"
-	}
+	set vmdrcPath "$::vmdStorePath/vmdStore.rc"
 
     set vmdrcLocal [open $vmdrcPath r]
     set vmdrcLocalContent [split [read $vmdrcLocal] "\n"]

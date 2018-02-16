@@ -29,7 +29,7 @@ namespace eval vmdStore:: {
 		
 		#### Program Variables
 		## General
-		variable version	    	"0.4"
+		variable version	    	"0.9"
 
 		#GUI
         variable topGui             ".vmdStore"
@@ -48,7 +48,6 @@ namespace eval vmdStore:: {
 		variable pluginVersion		""
 		variable installedPlugins	{}
 		variable installingProgress	5
-		variable home				$env(HOME)
 
 		#Markdown
 		variable markdown			[list \
@@ -73,19 +72,10 @@ proc vmdStore::start {} {
 
 
 	#### Save a backup of vmdrc
-	if {[string first "Windows" $::tcl_platform(os)] != -1} {
-		catch {file copy -force "$vmdStore::home/vmd.rc" "$vmdStore::home/vmd.rc.bak.vmdStore"}
-	} else {
-		catch {file copy -force ~/.vmdrc ~/.vmdrc.bak.vmdStore}
-	}
-
+	catch {file copy -force $::vmdStorePath/vmdStore.rc $::vmdStorePath/vmdStore.rc.bak}
 
 	#### Read VMDRC to check the version of all installed plugins
-	if {[string first "Windows" $::tcl_platform(os)] != -1} {
-		set vmdrcPath "$vmdStore::home/vmd.rc"
-	} else {
-		set vmdrcPath "~/.vmdrc"
-	}
+	set vmdrcPath "$::vmdStorePath/vmdStore.rc"
 	set vmdrcLocal [open $vmdrcPath r]
     set vmdrcLocalContent [split [read $vmdrcLocal] "\n"]
 	close $vmdrcLocal
@@ -149,11 +139,7 @@ proc vmdStore::start {} {
 		set vmdrcFile [open "$::vmdStorePath/temp/vmdStore-$onlineVersion/install.txt" r]
     	set vmdrcFileContent [read $vmdrcFile]
     	close $vmdrcFile
-		if {[string first "Windows" $::tcl_platform(os)] != -1} {
-			set vmdrcPath "$vmdStore::home/vmd.rc"
-		} else {
-			set vmdrcPath "~/.vmdrc"
-		}
+		set vmdrcPath "$::vmdStorePath/vmdStore.rc"
 
 		foreach line [split $vmdrcFileContent "\n"] {
     	    if {[regexp "####vmdStore#### START" $line] == 1} {
