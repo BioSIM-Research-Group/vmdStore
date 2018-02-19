@@ -11,9 +11,9 @@ Visual Molecular Dynamics (VMD) 1.9.3 or later
 ## Installation 
 You can install vmdStore through the following installers:
 
-macOS: [Download]()
+macOS: [Download](https://goo.gl/RKtbfU)
 
-Windows: [Download]()
+Windows: [Download](https://goo.gl/nTt3v6)
 
 Linux: soon
 
