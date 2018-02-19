@@ -42,6 +42,7 @@ play none
 
 ## Bug Report/Suggestions
 If you want to report bugs or suggest features, please contact me: henrique.fernandes@fc.up.pt
+
 If you want to include your own VMD plugin on VMD Store, send an email to henrique.fernandes@fc.up.pt
 
 ## Available Plugins
