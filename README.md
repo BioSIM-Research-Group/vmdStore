@@ -1,5 +1,12 @@
 # vmdStore
-vmdStore provides a user-friendly interface to free install VMD plugins. vmdStore also helps you keeping the plugins always updated. 
+vmdStore provides a user-friendly interface to free install VMD plugins. vmdStore also helps you keeping the plugins always updated.
+
+## Minimum Requirements
+Operating System: macOS, Linux, or Windows
+Visual Molecular Dynamics (VMD) 1.9.3 or later
+
+## Installation 
+
 
 ## Available Plugins
 ### Alanine Scanning Mutagenesis
