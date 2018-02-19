@@ -40,6 +40,8 @@ play none
 
 5. Start VMD. It could be necessary to restart VMD on first launch after vmdStore installation.
 
+## Bug Report/Suggestions
+If you want to report bugs or suggest features, please contact me: henrique.fernandes@fc.up.pt
 
 ## Available Plugins
 ### Alanine Scanning Mutagenesis
