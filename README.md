@@ -6,7 +6,14 @@ Operating System: macOS, Linux, or Windows
 Visual Molecular Dynamics (VMD) 1.9.3 or later
 
 ## Installation 
+You can install vmdStore through the following installers:
+macOS:
+Windows:
+Linux: soon
 
+or manually according to the following tutorial.
+
+### Manual Installation
 
 ## Available Plugins
 ### Alanine Scanning Mutagenesis
