@@ -98,6 +98,7 @@ proc vmdStore::fillData {category plugin} {
         incr i
     }
 
+    set vmdStore::pluginVersion ""
     set url "https://github.com/portobiocomp/$plugin/releases/latest"
 	set token [::http::geturl $url -timeout 30000]
 	set data [::http::data $token]
@@ -159,13 +160,16 @@ proc vmdStore::fillData {category plugin} {
     set alreadyInstalled [lsearch -index 0 $::vmdStore::installedPlugins $plugin]
     if {$alreadyInstalled == -1} {
         $vmdStore::topGui.frame1.right.f3.install  configure -text "Install" -style vmdStore.greenBg.TButton
+        $vmdStore::topGui.frame1.right.f3.install  configure -style vmdStore.greenBg.TButton
         $vmdStore::topGui.frame1.right.f3.uninstall  configure -state disabled
     } else {
         if {$vmdStore::pluginVersion == [lindex [lindex $::vmdStore::installedPlugins $alreadyInstalled] 1]} {
             $vmdStore::topGui.frame1.right.f3.install  configure -text "Re-Install"
+            $vmdStore::topGui.frame1.right.f3.install  configure -style vmdStore.greenBg.TButton
             $vmdStore::topGui.frame1.right.f3.uninstall  configure -state normal
         } else {
-            $vmdStore::topGui.frame1.right.f3.install  configure -text "Update" -style vmdStore.update.TButton
+            $vmdStore::topGui.frame1.right.f3.install configure -text "Update"
+            $vmdStore::topGui.frame1.right.f3.install  configure -style vmdStore.update.TButton 
             $vmdStore::topGui.frame1.right.f3.uninstall  configure -state normal
         }
     }

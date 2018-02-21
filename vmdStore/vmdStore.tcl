@@ -29,7 +29,7 @@ namespace eval vmdStore:: {
 		
 		#### Program Variables
 		## General
-		variable version	    	"0.9"
+		variable version	    	"1.0"
 
 		#GUI
         variable topGui             ".vmdStore"
