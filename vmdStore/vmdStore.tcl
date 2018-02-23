@@ -29,7 +29,7 @@ namespace eval vmdStore:: {
 		
 		#### Program Variables
 		## General
-		variable version	    	"1.0"
+		variable version	    	"1.1"
 
 		#GUI
         variable topGui             ".vmdStore"
@@ -193,20 +193,23 @@ proc vmdStore::start {} {
 
 	    close $vmdrcLocal
 
+		destroy $::vmdStore::loadingGui
+		tk_messageBox -title "VMD Store" -icon warning -message "The VMD Store was updated. Please, restart VMD to apply the new settings."
+
 	} else {
 		#Running the latest version
 		puts "You are running the latest version of vmdStore."
+	
+		destroy $::vmdStore::loadingGui
+		
+		if {[winfo exists $::vmdStore::topGui]} {wm deiconify $::vmdStore::topGui ;return $::vmdStore::topGui}
+		#### Open the GUI
+		vmdStore::topGui
+		update
+		return $::vmdStore::topGui
 	}
 
 
-	#### Chech vmdStore update
-	destroy $::vmdStore::loadingGui
-	
-	if {[winfo exists $::vmdStore::topGui]} {wm deiconify $::vmdStore::topGui ;return $::vmdStore::topGui}
-	#### Open the GUI
-	vmdStore::topGui
-	update
-	return $::vmdStore::topGui
 
 }
 
