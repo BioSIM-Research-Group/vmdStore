@@ -233,7 +233,9 @@ proc vmdStoreDownlodProgress {token total current} {
 		set total [format %.2f [expr $total / 1024]]
 		set units "GB"
 	}
-	puts "Downloading $current $units of $total $units"
+	if {$total != 0} {
+		puts "Downloading $current $units of $total $units"
+	}
 }
 
 proc vmdStoreCopyFiles {origin destination} {
