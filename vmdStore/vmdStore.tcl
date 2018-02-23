@@ -29,7 +29,7 @@ namespace eval vmdStore:: {
 		
 		#### Program Variables
 		## General
-		variable version	    	"1.1"
+		variable version	    	"1.1.1"
 
 		#GUI
         variable topGui             ".vmdStore"
@@ -198,7 +198,7 @@ proc vmdStore::start {} {
 
 	} else {
 		#Running the latest version
-		puts "You are running the latest version of vmdStore."
+		#puts "You are running the latest version of vmdStore."
 	
 		destroy $::vmdStore::loadingGui
 		
@@ -248,9 +248,9 @@ proc vmdStoreCopyFiles {origin destination} {
 			vmdStoreCopyFiles "$item" "$newDestination"
 		} else {
 			catch {file copy -force "$item" "$destination"} debug
-			if {$debug != ""} {
-				tk_messageBox -title "VMD Store" -icon error -message "The file \"$item\" was not installed/updated. Please, try again or install/update it manually."
-			}
+			#if {$debug != ""} {
+		#		tk_messageBox -title "VMD Store" -icon error -message "The file \"$item\" was not installed/updated. Please, try again or install/update it manually."
+		#	}
 		}
 	}
 }
