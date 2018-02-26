@@ -29,7 +29,7 @@ namespace eval vmdStore:: {
 		
 		#### Program Variables
 		## General
-		variable version	    	"1.1.1"
+		variable version	    	"1.1.2"
 
 		#GUI
         variable topGui             ".vmdStore"
@@ -96,10 +96,14 @@ proc vmdStore::start {} {
 	set localVersion [lindex [lindex $vmdStore::installedPlugins [lsearch -index 0 $vmdStore::installedPlugins "vmdStore"]] 1]
 	
 	# Getting the online Version of vmdStore
-	set url "https://github.com/portobiocomp/vmdStore/releases/latest"
-	set token [::http::geturl $url -timeout 30000]
-	set data [::http::data $token]
-	regexp -all {tag\/(\S+)\"} $data --> onlineVersion
+	set onlineVersion ""
+	while {$onlineVersion == ""} {
+		set url "https://github.com/portobiocomp/vmdStore/releases/latest"
+		set token [::http::geturl $url -timeout 5000]
+		set data [::http::data $token]
+		regexp -all {tag\/(\S+)\"} $data --> onlineVersion
+	}
+
 
 	# Check if an update is needed
 	if {$localVersion != $onlineVersion} {

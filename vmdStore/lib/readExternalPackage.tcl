@@ -1,8 +1,12 @@
 package provide vmdStoreReadExternalPackage 0.1
 
 proc vmdStore::readExternalPackage {path} {
-    set token [::http::geturl "$path" -timeout 30000]
-    set data [split [::http::data $token] "\n"]
+    $vmdStore::topGui.frame1.left.f0.tree insert "" end -id 0 -text "Loading..."
+    set data ""
+    while {$data == ""} {
+        set token [::http::geturl "$path" -timeout 5000]
+        set data [split [::http::data $token] "\n"]
+    }
     
     set ignore "yes"
     set fillList {}
@@ -25,6 +29,9 @@ proc vmdStore::readExternalPackage {path} {
         }
     }
 
+    ## Remove Loading label
+    $vmdStore::topGui.frame1.left.f0.tree delete 0
+
     set i 0
     ## Fill the tree with the categories
     foreach category $categoryList {
@@ -42,8 +49,11 @@ proc vmdStore::readExternalPackage {path} {
     foreach plugin $fillList {
         set plugin [lindex $plugin end]
         ## Get the README file
-        set token [::http::geturl "https://raw.githubusercontent.com/portobiocomp/$plugin/master/README.md" -timeout 30000]
-        set data [::http::data $token]
+        set data ""
+        while {$data == ""} {
+            set token [::http::geturl "https://raw.githubusercontent.com/portobiocomp/$plugin/master/README.md" -timeout 10000]
+            set data [::http::data $token]
+        }
         set a [list "$plugin" "$data"]
         lappend vmdStore::pluginDescriptions $a
     }
@@ -63,10 +73,12 @@ proc vmdStore::fillData {category plugin} {
     $vmdStore::topGui.frame1.right.f3.citation  configure -state disabled
     $vmdStore::topGui.frame1.right.f3.webPage  configure -state disabled
 
+    set description ""
+    while {$description == ""} {
+        set token [::http::geturl "https://raw.githubusercontent.com/portobiocomp/$plugin/master/README.md" -timeout 10000]
+        set description [::http::data $token]
+    }
 
-    set token [::http::geturl "https://raw.githubusercontent.com/portobiocomp/$plugin/master/README.md" -timeout 30000]
-    set description [::http::data $token]
-    
     ## Title
     $vmdStore::topGui.frame1.right.f0.pluginTitle configure -text $plugin
 
@@ -99,10 +111,12 @@ proc vmdStore::fillData {category plugin} {
     }
 
     set vmdStore::pluginVersion ""
-    set url "https://github.com/portobiocomp/$plugin/releases/latest"
-	set token [::http::geturl $url -timeout 30000]
-	set data [::http::data $token]
-	regexp -all {tag\/(\S+)\"} $data --> vmdStore::pluginVersion
+    while {$vmdStore::pluginVersion == ""} {
+        set url "https://github.com/portobiocomp/$plugin/releases/latest"
+	    set token [::http::geturl $url -timeout 30000]
+	    set data [::http::data $token]
+	    regexp -all {tag\/(\S+)\"} $data --> vmdStore::pluginVersion
+    }
 
     $vmdStore::topGui.frame1.right.f4.citationText configure -state normal
     $vmdStore::topGui.frame1.right.f4.citationText delete 1.0 end
@@ -122,8 +136,11 @@ proc vmdStore::fillData {category plugin} {
     foreach line [split $description "\n"] {
         if {[string first "!" $line] != -1} {
             regexp {\((\S+)\)} $line --> imagePath
-            set token [::http::geturl "https://raw.githubusercontent.com/portobiocomp/$plugin/master/$imagePath" -timeout 30000]
-            set image [::http::data $token]
+            set image ""
+            while {$image == ""} {
+                set token [::http::geturl "https://raw.githubusercontent.com/portobiocomp/$plugin/master/$imagePath" -timeout 30000]
+                set image [::http::data $token]
+            }
             set image [image create photo -data $image]
             lappend vmdStore::gallery $image
         }
