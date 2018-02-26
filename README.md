@@ -1,6 +1,8 @@
 # vmdStore
 vmdStore provides a user-friendly interface to free install VMD plugins. vmdStore also helps you keeping the plugins always updated.
 
+![Logo](https://i.imgur.com/fH1A93b.gif)
+
 ![vmdStore](https://i.imgur.com/pt2Yydd.jpg)
 
 ## Minimum Requirements
