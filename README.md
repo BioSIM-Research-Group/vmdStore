@@ -9,13 +9,13 @@ Operating System: macOS, Linux, or Windows
 Visual Molecular Dynamics (VMD) 1.9.3 or later
 
 ## Installation 
-You can install vmdStore through the following installers:
+You can install vmdStore through the installer.
 
-macOS: [Download](https://goo.gl/RKtbfU)
+Download
 
-Windows: [Download](https://goo.gl/nTt3v6)
+[![Download vmdStore](https://img.shields.io/sourceforge/dt/vmdstore.svg)](https://sourceforge.net/projects/vmdstore/files/latest/download)
 
-Linux: [Download](https://goo.gl/HmMkqh)
+
 
 
 or manually according to the following tutorial.
