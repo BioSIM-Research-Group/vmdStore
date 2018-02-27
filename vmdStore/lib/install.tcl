@@ -24,6 +24,10 @@ proc vmdStore::installPlugin {plugin} {
     catch {file delete -force "$::vmdStorePath/temp"}
 	file mkdir "$::vmdStorePath/temp"
 
+	# Restart TLS
+	::http::unregister https
+	::http::register https 443 ::tls::socket
+
     set url "https://github.com/portobiocomp/$plugin/archive/$onlineVersion.zip"
 	set token [::http::geturl $url -timeout 30000]
 	set data [::http::data $token]
