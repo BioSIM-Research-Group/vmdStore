@@ -145,7 +145,7 @@ proc vmdStore::topGui {} {
 		-highlightcolor #0099ff \
 		-highlightthickness 0 \
 		-wrap word \
-        -font {Helvetica} \
+        -font {TkDefaultFont} \
         -state normal \
 		] -in $f1.right.f1 -row 0 -column 0 -sticky news
 
@@ -193,7 +193,7 @@ proc vmdStore::topGui {} {
 		-highlightthickness 0 \
         -bg #f2f2f2 \
 		-wrap word \
-        -font {Helvetica 11} \
+        -font {TkDefaultFont} \
         -state disabled \
         -height 2 \
         -yscrollcommand "$f1.right.f4.yscb0 set" \
