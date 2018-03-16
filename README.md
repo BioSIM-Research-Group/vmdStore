@@ -20,7 +20,7 @@ You can install vmdStore through the installer:
 [Download vmdStore for macOS](http://bit.ly/vmdStore-macOS)
 
 
-Total of Downloads: 36 (updated on March 13th 2018)
+Total of Downloads: 39 (updated on March 16th 2018)
 
 
 or manually according to the following tutorial.
