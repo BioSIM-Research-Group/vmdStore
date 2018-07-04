@@ -8,7 +8,7 @@ namespace eval vmdStore:: {
 		package require Tk
 		package require http
 		package forget tls
-		package require tls	1.6.7.1
+		package require -exact tls 1.6.7.1
 
         ## GUI
         package require vmdStoreTopGui                      0.1
@@ -29,7 +29,7 @@ namespace eval vmdStore:: {
 		
 		#### Program Variables
 		## General
-		variable version	    	"1.1.4"
+		variable version	    	"1.1.5"
 
 		#GUI
         variable topGui             ".vmdStore"
