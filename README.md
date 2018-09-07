@@ -68,10 +68,10 @@ If you want to include your own VMD plugin on VMD Store, send an email to henriq
  - molUP (https://github.com/portobiocomp/molUP)
  
 ### Tools
- - toolBar (https://github.com/portobiocomp/toolBar)
+ - toolBar (https://github.com/BioSIM-Research-Group/toolBar)
  - selectionManager (https://github.com/portobiocomp/selectionManager)
  - chemPathTracker (https://github.com/portobiocomp/chemPathTracker)
- - volArea (https://github.com/portobiocomp/volArea)
+ - volArea (https://github.com/BioSIM-Research-Group/volArea)
 
 ### Molecular Docking
  - vsLab (https://github.com/portobiocomp/vsLab)
