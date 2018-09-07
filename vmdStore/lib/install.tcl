@@ -28,7 +28,7 @@ proc vmdStore::installPlugin {plugin} {
 	::http::unregister https
 	::http::register https 443 ::tls::socket
 
-    set url "https://github.com/portobiocomp/$plugin/archive/$onlineVersion.zip"
+    set url "https://github.com/BioSIM-Research-Group/$plugin/archive/$onlineVersion.zip"
 	set token [::http::geturl $url -timeout 30000]
 	set data [::http::data $token]
 	regexp -all {href=\"(\S+)\"} $data --> url

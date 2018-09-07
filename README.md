@@ -59,19 +59,19 @@ If you want to include your own VMD plugin on VMD Store, send an email to henriq
 
 ## Available Plugins
 ### Alanine Scanning Mutagenesis
- - compASM (https://github.com/portobiocomp/compASM)
+ - compASM (https://github.com/BioSIM-Research-Group/compASM)
 
 ### Education
- - vmdMagazine (https://github.com/portobiocomp/vmdMagazine)
+ - vmdMagazine (https://github.com/BioSIM-Research-Group/vmdMagazine)
  
 ### QM/MM
- - molUP (https://github.com/portobiocomp/molUP)
+ - molUP (https://github.com/BioSIM-Research-Group/molUP)
  
 ### Tools
  - toolBar (https://github.com/BioSIM-Research-Group/toolBar)
- - selectionManager (https://github.com/portobiocomp/selectionManager)
- - chemPathTracker (https://github.com/portobiocomp/chemPathTracker)
+ - selectionManager (https://github.com/BioSIM-Research-Group/selectionManager)
+ - chemPathTracker (https://github.com/BioSIM-Research-Group/chemPathTracker)
  - volArea (https://github.com/BioSIM-Research-Group/volArea)
 
 ### Molecular Docking
- - vsLab (https://github.com/portobiocomp/vsLab)
+ - vsLab (https://github.com/BioSIM-Research-Group/vsLab)

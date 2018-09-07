@@ -51,7 +51,7 @@ proc vmdStore::readExternalPackage {path} {
         ## Get the README file
         set data ""
         while {$data == ""} {
-            set token [::http::geturl "https://raw.githubusercontent.com/portobiocomp/$plugin/master/README.md" -timeout 10000]
+            set token [::http::geturl "https://raw.githubusercontent.com/BioSIM-Research-Group/$plugin/master/README.md" -timeout 10000]
             set data [::http::data $token]
         }
         set a [list "$plugin" "$data"]
@@ -75,7 +75,7 @@ proc vmdStore::fillData {category plugin} {
 
     set description ""
     while {$description == ""} {
-        set token [::http::geturl "https://raw.githubusercontent.com/portobiocomp/$plugin/master/README.md" -timeout 10000]
+        set token [::http::geturl "https://raw.githubusercontent.com/BioSIM-Research-Group/$plugin/master/README.md" -timeout 10000]
         set description [::http::data $token]
     }
 
@@ -95,7 +95,7 @@ proc vmdStore::fillData {category plugin} {
 
     ## Footer Buttons
     set vmdStore::installLink   "$plugin"
-    set vmdStore::webPageLink	"https://github.com/portobiocomp/$plugin"
+    set vmdStore::webPageLink	"https://github.com/BioSIM-Research-Group/$plugin"
 
     set vmdStore::citationText ""
     set vmdStore::citationLink ""
@@ -112,7 +112,7 @@ proc vmdStore::fillData {category plugin} {
 
     set vmdStore::pluginVersion ""
     while {$vmdStore::pluginVersion == ""} {
-        set url "https://github.com/portobiocomp/$plugin/releases/latest"
+        set url "https://github.com/BioSIM-Research-Group/$plugin/releases/latest"
 	    set token [::http::geturl $url -timeout 30000]
 	    set data [::http::data $token]
 	    regexp -all {tag\/(\S+)\"} $data --> vmdStore::pluginVersion
@@ -138,7 +138,7 @@ proc vmdStore::fillData {category plugin} {
             regexp {\((\S+)\)} $line --> imagePath
             set image ""
             while {$image == ""} {
-                set token [::http::geturl "https://raw.githubusercontent.com/portobiocomp/$plugin/master/$imagePath" -timeout 30000]
+                set token [::http::geturl "https://raw.githubusercontent.com/BioSIM-Research-Group/$plugin/master/$imagePath" -timeout 30000]
                 set image [::http::data $token]
             }
             set image [image create photo -data $image]

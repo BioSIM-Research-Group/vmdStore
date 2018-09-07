@@ -272,7 +272,7 @@ proc vmdStore::topGui {} {
     grid columnconfigure $f2        1   -weight 1
    
     grid [ttk::label $f2.credits \
-        -text "Developed by Henrique S. Fernandes and Nuno M. F. S. A. Cerqueira - PortoBioComp" \
+        -text "Developed by Henrique S. Fernandes and Nuno M. F. S. A. Cerqueira - BioSIM" \
         -font {Helvetica 10} \
         ] -in $f2 -row 0 -column 1 -sticky e -pady [list 15 0] -padx [list 0 15]
     
