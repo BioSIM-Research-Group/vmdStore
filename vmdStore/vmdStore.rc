@@ -1,13 +1,8 @@
 ####vmdStore#### START vmdStore
-## Version 1.1.5
-variable vmdStorePath "/Users/Henrique/Documents/Software_development/portoBioCompRespository/vmdStore/vmdStore"
+## Version XXversionXX
+variable vmdStorePath none
 lappend auto_path $::vmdStorePath
 vmd_install_extension vmdStore "vmdStore::start" "VMD Store/VMD Store"
 ####vmdStore#### END vmdStore
 ## VMD Store Plugin Manager ##
 ## Please, do not change this file unless you know what are you doing! ##
-####vmdStore#### START toolBar
-## Version 0.9.8
-lappend auto_path "$::vmdStorePath/plugins/toolBar"
-vmd_install_extension toolBar "toolBar::startGui" "PortoBioComp/Tool Bar"
-####vmdStore#### END toolBar
