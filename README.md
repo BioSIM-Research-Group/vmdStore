@@ -62,8 +62,11 @@ If you want to include your own VMD plugin on VMD Store, send an email to henriq
  - compASM (https://github.com/BioSIM-Research-Group/compASM)
 
 ### Education
- - vmdMagazine (https://github.com/BioSIM-Research-Group/vmdMagazine)
- 
+ - vmdMagazine (https://github.com/BioSIM-Research-Group/vmdMagazine
+
+### Molecular Mechanics
+ - DelPhiForceVMD (https://github.com/delphi001/DelPhiForceVMD)
+
 ### QM/MM
  - molUP (https://github.com/BioSIM-Research-Group/molUP)
  
