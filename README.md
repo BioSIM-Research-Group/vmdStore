@@ -65,7 +65,7 @@ If you want to include your own VMD plugin on VMD Store, send an email to henriq
  - vmdMagazine (https://github.com/BioSIM-Research-Group/vmdMagazine
 
 ### Molecular Mechanics
- - DelPhiForceVMD (https://github.com/delphi001/DelPhiForceVMD)
+ - DelPhiForceVMD (https://github.com/henriquefer/DelPhiForceVMD)
 
 ### QM/MM
  - molUP (https://github.com/BioSIM-Research-Group/molUP)
