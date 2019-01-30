@@ -29,7 +29,7 @@ namespace eval vmdStore:: {
 		
 		#### Program Variables
 		## General
-		variable version	    	"1.1.6"
+		variable version	    	"1.1.8"
 
 		#GUI
         variable topGui             ".vmdStore"
@@ -39,7 +39,7 @@ namespace eval vmdStore:: {
         
         #Read External Package
         variable readmePath			"https://raw.githubusercontent.com/BioSIM-Research-Group/vmdStore/master/README.md"
-		variable server				"http://www.compbiochem.org/Software/vmdStore"
+		variable server				"https://biosim.pt/software/"
 		variable externalPackage    "$::vmdStorePath/temp/repository"
 		variable installLink		""
 		variable webPageLink		""
@@ -99,7 +99,7 @@ proc vmdStore::start {} {
 	set onlineVersion ""
 	while {$onlineVersion == ""} {
 		set url "https://github.com/BioSIM-Research-Group/vmdStore/releases/latest"
-		set token [::http::geturl $url -timeout 5000]
+		set token [::http::geturl $url -timeout 1000]
 		set data [::http::data $token]
 		regexp -all {tag\/(\S+)\"} $data --> onlineVersion
 	}
@@ -120,13 +120,13 @@ proc vmdStore::start {} {
 		puts "Downloading the update from: $url"
 		variable successfullDownload 0
 		set outputFile  [open "$::vmdStorePath/temp/plugin.zip" w]
-		set token [::http::geturl $url -channel $outputFile -binary true -timeout 1800000 -progress vmdStoreDownlodProgress -method GET]
+		set token [::http::geturl $url -channel $outputFile -binary true -timeout 900000 -progress vmdStoreDownlodProgress -method GET]
 		close $outputFile	
 
 		while {$vmdStore::successfullDownload == 0} {
 			file delete -force "$::vmdStorePath/temp/plugin.zip"
 			set outputFile  [open "$::vmdStorePath/temp/plugin.zip" wb]
-			set token [::http::geturl $url -channel $outputFile -binary true -timeout 1800000 -progress vmdStoreDownlodProgress -method GET]
+			set token [::http::geturl $url -channel $outputFile -binary true -timeout 900000 -progress vmdStoreDownlodProgress -method GET]
     		close $outputFile
 		}
 

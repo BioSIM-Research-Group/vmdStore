@@ -107,10 +107,11 @@ proc vmdStore::topGui {} {
 
         set category [$vmdStore::topGui.frame1.left.f0.tree parent $selection]
         set plugin [$vmdStore::topGui.frame1.left.f0.tree item $selection -text]
+        set account [lindex [lsearch -inline -index 1 $vmdStore::allPluginsAvailable $plugin] 2]
         
         if {$category != ""} {
             set category [$vmdStore::topGui.frame1.left.f0.tree item $category -text]
-            vmdStore::fillData $category $plugin
+            vmdStore::fillData $category $plugin $account
         }
     }
 

@@ -11,6 +11,7 @@ proc vmdStore::readExternalPackage {path} {
     set ignore "yes"
     set fillList {}
     set categoryList {}
+    variable allPluginsAvailable {}
     set category ""
     foreach line $data {
         if {$ignore == "no"} {
@@ -20,8 +21,10 @@ proc vmdStore::readExternalPackage {path} {
             }
             if {[string first "-" $line] != -1} {
                 set plugin [lindex $line 1]
+                set account [lindex [regexp -inline {\(https://github.com/(\S+)/.*} [lindex $line 2]] 1]
                 set a [list $category $plugin]
                 lappend fillList $a
+                lappend vmdStore::allPluginsAvailable [list $category $plugin $account]
             }
         }
         if {$line == "## Available Plugins"} {
@@ -48,10 +51,11 @@ proc vmdStore::readExternalPackage {path} {
     variable pluginDescriptions {}
     foreach plugin $fillList {
         set plugin [lindex $plugin end]
+        set account [lindex [lsearch -inline -index 1 $vmdStore::allPluginsAvailable $plugin] 2]
         ## Get the README file
         set data ""
         while {$data == ""} {
-            set token [::http::geturl "https://raw.githubusercontent.com/BioSIM-Research-Group/$plugin/master/README.md" -timeout 10000]
+            set token [::http::geturl "https://raw.githubusercontent.com/$account/$plugin/master/README.md" -timeout 10000]
             set data [::http::data $token]
         }
         set a [list "$plugin" "$data"]
@@ -61,7 +65,7 @@ proc vmdStore::readExternalPackage {path} {
 }
 
 
-proc vmdStore::fillData {category plugin} {
+proc vmdStore::fillData {category plugin account} {
     ## Disable Lateral Pannel while the information is collected from the server
     $vmdStore::topGui.frame1.left.f0.tree configure -selectmode none
     $vmdStore::topGui.frame1.right.f3.progressBar start 10
@@ -75,7 +79,7 @@ proc vmdStore::fillData {category plugin} {
 
     set description ""
     while {$description == ""} {
-        set token [::http::geturl "https://raw.githubusercontent.com/BioSIM-Research-Group/$plugin/master/README.md" -timeout 10000]
+        set token [::http::geturl "https://raw.githubusercontent.com/$account/$plugin/master/README.md" -timeout 10000]
         set description [::http::data $token]
     }
 
@@ -95,7 +99,7 @@ proc vmdStore::fillData {category plugin} {
 
     ## Footer Buttons
     set vmdStore::installLink   "$plugin"
-    set vmdStore::webPageLink	"https://github.com/BioSIM-Research-Group/$plugin"
+    set vmdStore::webPageLink	"https://github.com/$account/$plugin"
 
     set vmdStore::citationText ""
     set vmdStore::citationLink ""
@@ -112,7 +116,7 @@ proc vmdStore::fillData {category plugin} {
 
     set vmdStore::pluginVersion ""
     while {$vmdStore::pluginVersion == ""} {
-        set url "https://github.com/BioSIM-Research-Group/$plugin/releases/latest"
+        set url "https://github.com/$account/$plugin/releases/latest"
 	    set token [::http::geturl $url -timeout 30000]
 	    set data [::http::data $token]
 	    regexp -all {tag\/(\S+)\"} $data --> vmdStore::pluginVersion
@@ -138,7 +142,7 @@ proc vmdStore::fillData {category plugin} {
             regexp {\((\S+)\)} $line --> imagePath
             set image ""
             while {$image == ""} {
-                set token [::http::geturl "https://raw.githubusercontent.com/BioSIM-Research-Group/$plugin/master/$imagePath" -timeout 30000]
+                set token [::http::geturl "https://raw.githubusercontent.com/$account/$plugin/master/$imagePath" -timeout 30000]
                 set image [::http::data $token]
             }
             set image [image create photo -data $image]
