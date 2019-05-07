@@ -22,6 +22,10 @@ Available for Windows, macOS, and Linux.
 [![Download vmdStore](https://img.shields.io/sourceforge/dw/vmdstore.svg)](https://sourceforge.net/projects/vmdstore/files/latest/download)
 [![Download vmdStore](https://img.shields.io/sourceforge/dm/vmdstore.svg)](https://sourceforge.net/projects/vmdstore/files/latest/download)
 
+Bash script:
+
+[![Download vmdStore](https://a.fsdn.com/con/app/sf-download-button)](https://sourceforge.net/projects/vmdstore/files/vmdStore-Installer-Script.zip/download)
+
 <!---
 [Download vmdStore for Windows](http://bit.ly/vmdStore-Windows)
 [Download vmdStore for Linux](http://bit.ly/vmdStore-Linux)
