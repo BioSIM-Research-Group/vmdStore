@@ -29,7 +29,7 @@ namespace eval vmdStore:: {
 		
 		#### Program Variables
 		## General
-		variable version	    	"1.1.9"
+		variable version	    	"1.1.10"
 
 		#GUI
         variable topGui             ".vmdStore"
@@ -48,6 +48,12 @@ namespace eval vmdStore:: {
 		variable pluginVersion		""
 		variable installedPlugins	{}
 		variable installingProgress	5
+
+		if {[string first "Windows" $::tcl_platform(os)] != -1} {
+			variable wget "$vmdStorePath/lib/windows/bin/wget.exe"
+		} else {
+			variable wget "wget"
+		}
 
 		#Markdown
 		variable markdown			[list \
@@ -117,18 +123,20 @@ proc vmdStore::start {} {
 		set token [::http::geturl $url -timeout 30000]
 		set data [::http::data $token]
 		regexp -all {href=\"(\S+)\"} $data --> url
-		puts "Downloading the update from: $url"
-		variable successfullDownload 0
-		set outputFile  [open "$::vmdStorePath/temp/plugin.zip" w]
-		set token [::http::geturl $url -channel $outputFile -binary true -timeout 900000 -progress vmdStoreDownlodProgress -method GET]
-		close $outputFile	
+		puts "Downloading the update from: $url \n Please wait..."
+		catch {exec $vmdStore::wget -O "$::vmdStorePath/temp/plugin.zip" "$url"} out
+		puts $out
+		#variable successfullDownload 0
+		# set outputFile  [open "$::vmdStorePath/temp/plugin.zip" w]
+		# set token [::http::geturl $url -channel $outputFile -binary true -timeout 900000 -progress vmdStoreDownlodProgress -method GET]
+		# close $outputFile	
 
-		while {$vmdStore::successfullDownload == 0} {
-			file delete -force "$::vmdStorePath/temp/plugin.zip"
-			set outputFile  [open "$::vmdStorePath/temp/plugin.zip" wb]
-			set token [::http::geturl $url -channel $outputFile -binary true -timeout 900000 -progress vmdStoreDownlodProgress -method GET]
-    		close $outputFile
-		}
+		# while {$vmdStore::successfullDownload == 0} {
+		# 	file delete -force "$::vmdStorePath/temp/plugin.zip"
+		# 	set outputFile  [open "$::vmdStorePath/temp/plugin.zip" wb]
+		# 	set token [::http::geturl $url -channel $outputFile -binary true -timeout 900000 -progress vmdStoreDownlodProgress -method GET]
+    	# 	close $outputFile
+		# }
 
 		if {[string first "Windows" $::tcl_platform(os)] != -1} {
 			exec "$::vmdStorePath/lib/zip/unzip.exe" -q -o "$::vmdStorePath/temp/plugin.zip" -d "$::vmdStorePath/temp"

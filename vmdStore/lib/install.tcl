@@ -34,18 +34,20 @@ proc vmdStore::installPlugin {plugin} {
 	set token [::http::geturl $url -timeout 30000]
 	set data [::http::data $token]
 	regexp -all {href=\"(\S+)\"} $data --> url
-	puts "Downloading the plugin from: $url"
-	variable successfullDownload 0
-	set outputFile  [open "$::vmdStorePath/temp/plugin.zip" wb]
-	set token [::http::geturl $url -channel $outputFile -binary true -timeout 1800000 -progress vmdStoreDownlodProgress -method GET]
-    close $outputFile
+	puts "Downloading the plugin from: $url \n Please wait..."
+	catch {exec $vmdStore::wget -O "$::vmdStorePath/temp/plugin.zip" "$url"} out
+	puts $out
+	#variable successfullDownload 0
+	#set outputFile  [open "$::vmdStorePath/temp/plugin.zip" wb]
+	#set token [::http::geturl $url -channel $outputFile -binary true -timeout 1800000 -progress vmdStoreDownlodProgress -method GET]
+    #close $outputFile
 
-	while {$vmdStore::successfullDownload == 0} {
-		file delete -force "$::vmdStorePath/temp/plugin.zip"
-		set outputFile  [open "$::vmdStorePath/temp/plugin.zip" wb]
-		set token [::http::geturl $url -channel $outputFile -binary true -timeout 1800000 -progress vmdStoreDownlodProgress -method GET]
-    	close $outputFile
-	}
+	# while {$vmdStore::successfullDownload == 0} {
+	# 	file delete -force "$::vmdStorePath/temp/plugin.zip"
+	# 	set outputFile  [open "$::vmdStorePath/temp/plugin.zip" wb]
+	# 	set token [::http::geturl $url -channel $outputFile -binary true -timeout 1800000 -progress vmdStoreDownlodProgress -method GET]
+    # 	close $outputFile
+	# }
 
     # Extracting the plugin
     if {[string first "Windows" $::tcl_platform(os)] != -1} {
