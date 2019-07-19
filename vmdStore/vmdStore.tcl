@@ -29,7 +29,7 @@ namespace eval vmdStore:: {
 		
 		#### Program Variables
 		## General
-		variable version	    	"1.1.10"
+		variable version	    	"1.1.11"
 
 		#GUI
         variable topGui             ".vmdStore"
@@ -50,7 +50,7 @@ namespace eval vmdStore:: {
 		variable installingProgress	5
 
 		if {[string first "Windows" $::tcl_platform(os)] != -1} {
-			variable wget "$vmdStorePath/lib/windows/bin/wget.exe"
+			variable wget "$vmdStorePath/lib/wget/wget.exe"
 		} else {
 			variable wget "wget"
 		}
