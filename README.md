@@ -11,7 +11,37 @@ Operating System: macOS, Linux, or Windows
 Visual Molecular Dynamics (VMD) 1.9.3 or later
 
 ## Installation 
-You can install vmdStore through the installer (GUI):
+1. You can install VMD Store through the Tk Console on VMD:
+
+   This installation can be used on every machine running VMD 1.9.3 or later.
+   
+   a. Download and unpack the installer:
+   
+   [![Download vmdStore](https://a.fsdn.com/con/app/sf-download-button)](https://sourceforge.net/projects/vmdstore/files/VMD%20Store%20Installer%20through%20VMD%20Tk%20Console/download)
+   
+   b. Launch VMD (1.9.3 or later) and open the Tk Console (Extensions > Tk Console);
+   
+   c. Go to the installer directory on Tk Console. Example:
+   
+   ```
+   cd /home/users/myname/Downloads/vmdStore-Installer
+   ```
+   
+   d. Run the following command on Tk Console:
+   
+   ```
+   play vmdStore-install.tcl
+   ```
+   
+   e. Follow the instructions;
+   
+   f. Done!
+   
+      Re-launch VMD and open VMD Store at Extensions > VMD Store > VMD Store.
+      
+      
+
+2. or the GUI installer:
 
 Available for Windows, macOS, and Linux.
 
@@ -23,7 +53,7 @@ Available for Windows, macOS, and Linux.
 [![Download vmdStore](https://img.shields.io/sourceforge/dm/vmdstore.svg)](https://sourceforge.net/projects/vmdstore/files/latest/download)
 
 
-or the bash script:
+3. or the bash script:
 
 [![Download vmdStore](https://a.fsdn.com/con/app/sf-download-button)](https://sourceforge.net/projects/vmdstore/files/vmdStore-Installer-Script.zip/download)
 
@@ -35,7 +65,7 @@ Total of Downloads: 45 (updated on March 20th 2018) (7)
 -->
 
 
-or manually according to the following tutorial.
+4. or manually according to the following tutorial.
 
 
 ### Manual Installation
