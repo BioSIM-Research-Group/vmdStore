@@ -38,7 +38,7 @@ Visual Molecular Dynamics (VMD) 1.9.3 or later
    f. Done!
       Re-launch VMD and open VMD Store at Extensions > VMD Store > VMD Store.
       
-      Installation Video Tutorial (https://youtu.be/r6Ci2AS2uv0)
+      Video Tutorial (https://youtu.be/r6Ci2AS2uv0)
       
 
 2. or the GUI installer:
