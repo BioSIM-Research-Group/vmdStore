@@ -23,13 +23,13 @@ Visual Molecular Dynamics (VMD) 1.9.3 or later
    
    c. Go to the installer directory on Tk Console. Example:
    
-         [Linux/macOS]:
+      [Linux/macOS]:
    
          ```
          cd /home/users/myname/Downloads/vmdStore-Installer
          ```
       
-         [Windows]:
+      [Windows]:
    
          ```
          cd C:/Users/myname/Downloads/vmdStore-Installer
