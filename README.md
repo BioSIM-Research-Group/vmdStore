@@ -13,7 +13,7 @@ Visual Molecular Dynamics (VMD) 1.9.3 or later
 ## Installation 
 1. You can install VMD Store through the Tk Console on VMD:
 
-   This installation can be used on every machine running VMD 1.9.3 or later.
+   This installation process can be used on every machine running VMD 1.9.3 or later.
    
    a. Download and unpack the installer:
    
@@ -38,6 +38,7 @@ Visual Molecular Dynamics (VMD) 1.9.3 or later
    f. Done!
       Re-launch VMD and open VMD Store at Extensions > VMD Store > VMD Store.
       
+      Installation Video Tutorial (https://youtu.be/r6Ci2AS2uv0)
       
 
 2. or the GUI installer:
