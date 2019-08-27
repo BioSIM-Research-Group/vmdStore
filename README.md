@@ -106,7 +106,7 @@ If you want to include your own VMD plugin on VMD Store, send an email to henriq
 
 ### Molecular Mechanics
  - DelPhiForceVMD (https://github.com/delphi001/DelPhiForceVMD)
- - Pathways (https://github.com/balabin/pathways)
+ - pathways (https://github.com/balabin/pathways)
 
 ### QM/MM
  - molUP (https://github.com/BioSIM-Research-Group/molUP)
