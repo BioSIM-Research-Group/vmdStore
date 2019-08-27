@@ -17,7 +17,7 @@ Visual Molecular Dynamics (VMD) 1.9.3 or later
    
    a. Download and unpack the installer:
    
-   [![Download vmdStore](https://a.fsdn.com/con/app/sf-download-button)](https://sourceforge.net/projects/vmdstore/files/VMD%20Store%20Installer%20through%20VMD%20Tk%20Console/download)
+   [![Download vmdStore](https://a.fsdn.com/con/app/sf-download-button)](https://sourceforge.net/projects/vmdstore/files/VMD_Store_Installer_through_VMDTkConsole.zip/download)
    
    b. Launch VMD (1.9.3 or later) and open the Tk Console (Extensions > Tk Console);
    
