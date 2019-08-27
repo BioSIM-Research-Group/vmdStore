@@ -23,20 +23,19 @@ Visual Molecular Dynamics (VMD) 1.9.3 or later
    
    c. Go to the installer directory on Tk Console. Example:
    
-   ```
-   cd /home/users/myname/Downloads/vmdStore-Installer
-   ```
+      ```
+      cd /home/users/myname/Downloads/vmdStore-Installer
+      ```
    
    d. Run the following command on Tk Console:
    
-   ```
-   play vmdStore-install.tcl
-   ```
+      ```
+      play vmdStore-install.tcl
+      ```
    
    e. Follow the instructions;
    
    f. Done!
-   
       Re-launch VMD and open VMD Store at Extensions > VMD Store > VMD Store.
       
       
