@@ -10,6 +10,8 @@ Operating System: macOS, Linux, or Windows
 
 Visual Molecular Dynamics (VMD) 1.9.3 or later
 
+wget (Linux and macOS)
+
 ## Installation 
 1. You can install VMD Store through the Tk Console on VMD:
 
