@@ -17,27 +17,31 @@ wget (Linux and macOS)
 
    This installation process can be used on every machine running VMD 1.9.3 or later.
    
-   a. Download and unpack the installer:
+   a. Download and unpack the VMD Store:
    
-   [![Download vmdStore](https://a.fsdn.com/con/app/sf-download-button)](https://sourceforge.net/projects/vmdstore/files/VMD_Store_Installer_through_VMDTkConsole.zip/download)
+   [![Download vmdStore](https://a.fsdn.com/con/app/sf-download-button)](https://sourceforge.net/projects/vmdstore/files/latest/download)
+   [![Download vmdStore](https://img.shields.io/sourceforge/dt/vmdstore.svg)](https://sourceforge.net/projects/vmdstore/files/latest/download)
+   [![Download vmdStore](https://img.shields.io/sourceforge/dd/vmdstore.svg)](https://sourceforge.net/projects/vmdstore/files/latest/download)
+   [![Download vmdStore](https://img.shields.io/sourceforge/dw/vmdstore.svg)](https://sourceforge.net/projects/vmdstore/files/latest/download)
+   [![Download vmdStore](https://img.shields.io/sourceforge/dm/vmdstore.svg)](https://sourceforge.net/projects/vmdstore/files/latest/download)
    
    b. Launch VMD (1.9.3 or later) and open the Tk Console (Extensions > Tk Console);
    
-   c. Go to the installer directory on Tk Console. Example:
+   c. Navigate to the downloaded directory on Tk Console. Example:
    
       [Linux/macOS]:
    
-         cd /home/users/myname/Downloads/vmdStore-Installer
+         cd /home/users/myname/Downloads/BioSIM-Research-Group-vmdStore-19131bc/
 
       
       [Windows]:
    
-         cd C:/Users/myname/Downloads/vmdStore-Installer
+         cd C:/Users/myname/Downloads/BioSIM-Research-Group-vmdStore-19131bc/
    
    d. Run the following command on Tk Console:
    
       ```
-      play vmdStore-install.tcl
+      play vmdStore-installer-tkconsole.tcl
       ```
    
    e. Follow the instructions;
@@ -48,31 +52,31 @@ wget (Linux and macOS)
       Video Tutorial (https://youtu.be/r6Ci2AS2uv0)
       
 
-2. or the GUI installer:
+2. or the bash script:
 
-Available for Windows, macOS, and Linux.
+   a. Download and unpack the VMD Store:
+      
+      [![Download vmdStore](https://a.fsdn.com/con/app/sf-download-button)](https://sourceforge.net/projects/vmdstore/files/latest/download)
+      [![Download vmdStore](https://img.shields.io/sourceforge/dt/vmdstore.svg)](https://sourceforge.net/projects/vmdstore/files/latest/download)
+      [![Download vmdStore](https://img.shields.io/sourceforge/dd/vmdstore.svg)](https://sourceforge.net/projects/vmdstore/files/latest/download)
+      [![Download vmdStore](https://img.shields.io/sourceforge/dw/vmdstore.svg)](https://sourceforge.net/projects/vmdstore/files/latest/download)
+      [![Download vmdStore](https://img.shields.io/sourceforge/dm/vmdstore.svg)](https://sourceforge.net/projects/vmdstore/files/latest/download)
 
-[![Download vmdStore](https://a.fsdn.com/con/app/sf-download-button)](https://sourceforge.net/projects/vmdstore/files/latest/download)
+   b. Navigate to the download directory:
 
-[![Download vmdStore](https://img.shields.io/sourceforge/dt/vmdstore.svg)](https://sourceforge.net/projects/vmdstore/files/latest/download)
-[![Download vmdStore](https://img.shields.io/sourceforge/dd/vmdstore.svg)](https://sourceforge.net/projects/vmdstore/files/latest/download)
-[![Download vmdStore](https://img.shields.io/sourceforge/dw/vmdstore.svg)](https://sourceforge.net/projects/vmdstore/files/latest/download)
-[![Download vmdStore](https://img.shields.io/sourceforge/dm/vmdstore.svg)](https://sourceforge.net/projects/vmdstore/files/latest/download)
+      ```
+      cd /home/users/myname/Downloads/BioSIM-Research-Group-vmdStore-19131bc/
+      ```
 
+   c. Run the following command:
+      ```
+      bash install-vmdStore.sh
+      ```
 
-3. or the bash script:
-
-[![Download vmdStore](https://a.fsdn.com/con/app/sf-download-button)](https://sourceforge.net/projects/vmdstore/files/vmdStore-Installer-Script.zip/download)
-
-<!---
-[Download vmdStore for Windows](http://bit.ly/vmdStore-Windows)
-[Download vmdStore for Linux](http://bit.ly/vmdStore-Linux)
-[Download vmdStore for macOS](http://bit.ly/vmdStore-macOS)
-Total of Downloads: 45 (updated on March 20th 2018) (7)
--->
+   d. Follow the instructions.
 
 
-4. or manually according to the following tutorial.
+3. or manually according to the following tutorial.
 
 
 ### Manual Installation
