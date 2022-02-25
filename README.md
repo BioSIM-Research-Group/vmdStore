@@ -13,6 +13,9 @@ Visual Molecular Dynamics (VMD) 1.9.3 or later
 wget (Linux and macOS)
 
 ## Installation 
+
+The GUI installers for VMD Store were deprecated. Please, follow one of the following methods to install VMD Store.
+
 **1. You can install VMD Store through the Tk Console on VMD:**
 
    This installation process can be used on every machine running VMD 1.9.3 or later.
@@ -52,7 +55,7 @@ wget (Linux and macOS)
       Video Tutorial (https://youtu.be/r6Ci2AS2uv0)
       
 
-**2. or the bash script:**
+**2. or the bash script (macOS and Linux only):**
 
    a. Download and unpack the VMD Store:
       
