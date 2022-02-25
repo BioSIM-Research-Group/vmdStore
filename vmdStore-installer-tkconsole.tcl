@@ -29,7 +29,7 @@
 ############################################################################################################
 
 #### Installation code
-set vmdStoreVersion "1.1.12" ; #Current VMD Store version
+set vmdStoreVersion "1.1.13" ; #Current VMD Store version
 set installerLocation "." ; #Get path of the installer location
 
 if {[file exists "$installerLocation/vmdStore"] == 0} {
