@@ -1,4 +1,4 @@
-package provide vmdStore 0.1
+package provide vmdStore 0.2
 
 #### INIT ############################################################
 namespace eval vmdStore:: {
@@ -8,7 +8,16 @@ namespace eval vmdStore:: {
 		package require Tk
 		package require http
 		package forget tls
-		package require -exact tls 1.6.7.1
+		
+		if {[lindex "$::tcl_platform(os)" 0] == "Windows"} {
+			if {$::tcl_platform(pointerSize) == 8} {
+				package require -exact tls 1.7.16
+			} else {
+				package require -exact tls 1.6.7.1
+			}
+		} else {
+			package require -exact tls 1.6.7.1
+		}
 
         ## GUI
         package require vmdStoreTopGui                      0.1
@@ -29,7 +38,7 @@ namespace eval vmdStore:: {
 		
 		#### Program Variables
 		## General
-		variable version	    	"1.1.11"
+		variable version	    	"1.1.12"
 
 		#GUI
         variable topGui             ".vmdStore"
