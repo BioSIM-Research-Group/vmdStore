@@ -10,8 +10,45 @@ Operating System: macOS, Linux, or Windows
 
 Visual Molecular Dynamics (VMD) 1.9.3 or later
 
+wget (Linux and macOS)
+
 ## Installation 
-You can install vmdStore through the installer (GUI):
+1. You can install VMD Store through the Tk Console on VMD:
+
+   This installation process can be used on every machine running VMD 1.9.3 or later.
+   
+   a. Download and unpack the installer:
+   
+   [![Download vmdStore](https://a.fsdn.com/con/app/sf-download-button)](https://sourceforge.net/projects/vmdstore/files/VMD_Store_Installer_through_VMDTkConsole.zip/download)
+   
+   b. Launch VMD (1.9.3 or later) and open the Tk Console (Extensions > Tk Console);
+   
+   c. Go to the installer directory on Tk Console. Example:
+   
+      [Linux/macOS]:
+   
+         cd /home/users/myname/Downloads/vmdStore-Installer
+
+      
+      [Windows]:
+   
+         cd C:/Users/myname/Downloads/vmdStore-Installer
+   
+   d. Run the following command on Tk Console:
+   
+      ```
+      play vmdStore-install.tcl
+      ```
+   
+   e. Follow the instructions;
+   
+   f. Done!
+      Re-launch VMD and open VMD Store at Extensions > VMD Store > VMD Store.
+      
+      Video Tutorial (https://youtu.be/r6Ci2AS2uv0)
+      
+
+2. or the GUI installer:
 
 Available for Windows, macOS, and Linux.
 
@@ -23,7 +60,7 @@ Available for Windows, macOS, and Linux.
 [![Download vmdStore](https://img.shields.io/sourceforge/dm/vmdstore.svg)](https://sourceforge.net/projects/vmdstore/files/latest/download)
 
 
-or the bash script:
+3. or the bash script:
 
 [![Download vmdStore](https://a.fsdn.com/con/app/sf-download-button)](https://sourceforge.net/projects/vmdstore/files/vmdStore-Installer-Script.zip/download)
 
@@ -35,7 +72,7 @@ Total of Downloads: 45 (updated on March 20th 2018) (7)
 -->
 
 
-or manually according to the following tutorial.
+4. or manually according to the following tutorial.
 
 
 ### Manual Installation
@@ -71,7 +108,7 @@ If you want to include your own VMD plugin on VMD Store, send an email to henriq
 
 ### Molecular Mechanics
  - DelPhiForceVMD (https://github.com/delphi001/DelPhiForceVMD)
- - Pathways (https://github.com/balabin/pathways)
+ - pathways (https://github.com/balabin/pathways)
 
 ### QM/MM
  - molUP (https://github.com/BioSIM-Research-Group/molUP)
