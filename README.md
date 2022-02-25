@@ -13,7 +13,7 @@ Visual Molecular Dynamics (VMD) 1.9.3 or later
 wget (Linux and macOS)
 
 ## Installation 
-1. You can install VMD Store through the Tk Console on VMD:
+**1. You can install VMD Store through the Tk Console on VMD:**
 
    This installation process can be used on every machine running VMD 1.9.3 or later.
    
@@ -52,7 +52,7 @@ wget (Linux and macOS)
       Video Tutorial (https://youtu.be/r6Ci2AS2uv0)
       
 
-2. or the bash script:
+**2. or the bash script:**
 
    a. Download and unpack the VMD Store:
       
@@ -76,7 +76,7 @@ wget (Linux and macOS)
    d. Follow the instructions.
 
 
-3. or manually according to the following tutorial.
+**3. or manually according to the following tutorial.**
 
 
 ### Manual Installation
@@ -99,9 +99,9 @@ play none
 5. Start VMD. It could be necessary to restart VMD on first launch after vmdStore installation.
 
 ## Bug Report/Suggestions
-If you want to report bugs or suggest features, please contact me: henrique.fernandes@fc.up.pt
+If you want to report bugs or suggest features, please contact me: hfernandes@med.up.pt
 
-If you want to include your own VMD plugin on VMD Store, send an email to henrique.fernandes@fc.up.pt
+If you want to include your own VMD plugin on VMD Store, send an email to hfernandes@med.up.pt
 
 ## Available Plugins
 ### Alanine Scanning Mutagenesis
