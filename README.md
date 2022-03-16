@@ -116,6 +116,7 @@ If you want to include your own VMD plugin on VMD Store, send an email to hferna
 ### Molecular Mechanics
  - DelPhiForceVMD (https://github.com/delphi001/DelPhiForceVMD)
  - pathways (https://github.com/balabin/pathways)
+ - energySplit (https://github.com/BioSIM-Research-Group/energySplit)
 
 ### QM/MM
  - molUP (https://github.com/BioSIM-Research-Group/molUP)
