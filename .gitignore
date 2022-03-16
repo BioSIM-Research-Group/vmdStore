@@ -3,3 +3,5 @@ vmdStore/vmdStore-Content
 vmdStore/vmdStore.rc.bak
 vmdStore/temp
 vmdStore/vmdStore.rc
+temp
+.DS_Store
