@@ -1,4 +1,4 @@
-package provide vmdStore 0.2
+package provide vmdStore 0.3
 
 #### INIT ############################################################
 namespace eval vmdStore:: {
@@ -28,7 +28,7 @@ namespace eval vmdStore:: {
         package require vmdStoreTheme                       0.1
 
         ## Lib
-        package require vmdStoreReadExternalPackage         0.1
+        package require vmdStoreReadExternalPackage         0.2
 		package require vmdStoreBrowser						1.0
 		package require vmdStoreSearch  					0.1
 		package require vmdStoreInstallPlugins				0.1
@@ -38,7 +38,7 @@ namespace eval vmdStore:: {
 		
 		#### Program Variables
 		## General
-		variable version	    	"1.1.13"
+		variable version	    	"1.1.14"
 
 		#GUI
         variable topGui             ".vmdStore"
@@ -114,9 +114,9 @@ proc vmdStore::start {} {
 	set onlineVersion ""
 	while {$onlineVersion == ""} {
 		set url "https://github.com/BioSIM-Research-Group/vmdStore/releases/latest"
-		set token [::http::geturl $url -timeout 1000]
-		set data [::http::data $token]
-		regexp -all {tag\/(\S+)\"} $data --> onlineVersion
+		set token [::http::geturl $url -timeout 30000]
+		set data [set ${token}(meta)]
+		regexp -all {tag\/(\S+)\s} $data --> onlineVersion
 	}
 
 

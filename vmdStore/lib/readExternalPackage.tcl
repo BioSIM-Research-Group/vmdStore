@@ -1,4 +1,4 @@
-package provide vmdStoreReadExternalPackage 0.1
+package provide vmdStoreReadExternalPackage 0.2
 
 proc vmdStore::readExternalPackage {path} {
     $vmdStore::topGui.frame1.left.f0.tree insert "" end -id 0 -text "Loading..."
@@ -118,8 +118,8 @@ proc vmdStore::fillData {category plugin account} {
     while {$vmdStore::pluginVersion == ""} {
         set url "https://github.com/$account/$plugin/releases/latest"
 	    set token [::http::geturl $url -timeout 30000]
-	    set data [::http::data $token]
-	    regexp -all {tag\/(\S+)\"} $data --> vmdStore::pluginVersion
+	    set data [set ${token}(meta)]
+	    regexp -all {tag\/(\S+)\s} $data --> vmdStore::pluginVersion
     }
 
     $vmdStore::topGui.frame1.right.f4.citationText configure -state normal
